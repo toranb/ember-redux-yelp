@@ -6,7 +6,7 @@ var WelpListComponent = Ember.Component.extend({
     <ul class="search-results-list">
       {{#each-in results as |key result|}}
         <li>
-          <span>{{result.name}}</span>
+          <span>{{#link-to "results.detail" result.id}}{{result.name}}{{/link-to}}</span>
         </li>
       {{/each-in}}
     </ul>

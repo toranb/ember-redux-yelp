@@ -7,7 +7,10 @@ module('Unit | Reducers | results');
 test('should return the initial state', function(assert) {
   const result = reducer(undefined, {});
 
-  assert.deepEqual(result, {all: undefined});
+  assert.deepEqual(result, {
+    all: undefined,
+    selectedId: undefined
+  });
 });
 
 test('transform should parse fetch response and return new dict data structure', function(assert) {
@@ -72,5 +75,46 @@ test('transform should truly merge without side effecting the previous state', f
         'name': 'three'
       }
     }
+  });
+});
+
+test('detail should parse fetch response set selectedId and merge payload', function(assert) {
+  let previous = {
+    all: {
+      '1': {
+        'id': 1,
+        'name': 'one'
+      },
+      '2': {
+        'id': 2,
+        'name': '2'
+      },
+      '3': {
+        'id': 3,
+        'name': 'three'
+      }
+    }
+  };
+
+  deepFreeze(previous);
+
+  const result = reducer(previous, {type: 'TRANSFORM_DETAIL', response: {id: 2, name: 'two'}});
+
+  assert.deepEqual(result, {
+    all: {
+      '1': {
+        'id': 1,
+        'name': 'one'
+      },
+      '2': {
+        'id': 2,
+        'name': 'two'
+      },
+      '3': {
+        'id': 3,
+        'name': 'three'
+      }
+    },
+    selectedId: 2
   });
 });

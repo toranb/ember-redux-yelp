@@ -1,0 +1,76 @@
+import { test, module } from 'qunit';
+import reducer from 'welp/reducers/results';
+import deepFreeze from 'welp/tests/helpers/deep-freeze';
+
+module('Unit | Reducers | results');
+
+test('should return the initial state', function(assert) {
+  const result = reducer(undefined, {});
+
+  assert.deepEqual(result, {all: undefined});
+});
+
+test('transform should parse fetch response and return new dict data structure', function(assert) {
+  const one = {id: 1, name: 'one'};
+  const two = {id: 2, name: 'two'};
+  const three = {id: 3, name: 'three'};
+
+  const result = reducer({}, {type: 'TRANSFORM_LIST', response: [one, two, three]});
+
+  assert.deepEqual(result, {
+    all: {
+      '1': {
+        'id': 1,
+        'name': 'one'
+      },
+      '2': {
+        'id': 2,
+        'name': 'two'
+      },
+      '3': {
+        'id': 3,
+        'name': 'three'
+      }
+    }
+  });
+});
+
+test('transform should truly merge without side effecting the previous state', function(assert) {
+  let previous = {
+    all: {
+      '1': {
+        'id': 1,
+        'name': 'one'
+      },
+      '2': {
+        'id': 2,
+        'name': '2'
+      },
+      '3': {
+        'id': 3,
+        'name': 'three'
+      }
+    }
+  };
+
+  deepFreeze(previous);
+
+  const result = reducer(previous, {type: 'TRANSFORM_LIST', response: [{id: 2, name: 'two'}, {id: 3, name: 'three'}]});
+
+  assert.deepEqual(result, {
+    all: {
+      '1': {
+        'id': 1,
+        'name': 'one'
+      },
+      '2': {
+        'id': 2,
+        'name': 'two'
+      },
+      '3': {
+        'id': 3,
+        'name': 'three'
+      }
+    }
+  });
+});

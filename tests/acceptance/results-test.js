@@ -7,12 +7,12 @@ test('results route should list each result by name', function(assert) {
   visit('/');
   andThen(function() {
     assert.equal(currentURL(), '/');
-    assert.equal(find('.search-results-list li').length, 5);
-    assert.equal(find('.search-results-list li:eq(0)').text().trim(), 'Tacopocalypse');
-    assert.equal(find('.search-results-list li:eq(1)').text().trim(), 'Fuzzy’s Taco Shop');
-    assert.equal(find('.search-results-list li:eq(2)').text().trim(), 'Tacos Andreas');
-    assert.equal(find('.search-results-list li:eq(3)').text().trim(), 'Tasty Tacos');
-    assert.equal(find('.search-results-list li:eq(4)').text().trim(), 'El Bait Shop');
+    assert.equal(find('.search-results-list .result-heading').length, 5);
+    assert.equal(find('.search-results-list .result-heading:eq(0)').text().trim(), 'Tacopocalypse');
+    assert.equal(find('.search-results-list .result-heading:eq(1)').text().trim(), 'Fuzzy’s Taco Shop');
+    assert.equal(find('.search-results-list .result-heading:eq(2)').text().trim(), 'Tacos Andreas');
+    assert.equal(find('.search-results-list .result-heading:eq(3)').text().trim(), 'Tasty Tacos');
+    assert.equal(find('.search-results-list .result-heading:eq(4)').text().trim(), 'El Bait Shop');
   });
 });
 
@@ -29,5 +29,18 @@ test('clicking result name will redirect to the detail route', function(assert) 
     assert.equal(currentURL(), '/detail/2');
     assert.equal(find('.detail-name').length, 1);
     assert.equal(find('.detail-name').text().trim(), 'Fuzzy’s Taco Shop');
+  });
+});
+
+test('each result shows the number of ratings from the list view', function(assert) {
+  visit('/');
+  andThen(function() {
+    assert.equal(currentURL(), '/');
+    assert.equal(find('.search-results-list .result-reviews').length, 5);
+    assert.equal(find('.search-results-list .result-reviews:eq(0)').text().trim(), '1 review');
+    assert.equal(find('.search-results-list .result-reviews:eq(1)').text().trim(), '2 reviews');
+    assert.equal(find('.search-results-list .result-reviews:eq(2)').text().trim(), '1 review');
+    assert.equal(find('.search-results-list .result-reviews:eq(3)').text().trim(), '1 review');
+    assert.equal(find('.search-results-list .result-reviews:eq(4)').text().trim(), 'not yet reviewed');
   });
 });

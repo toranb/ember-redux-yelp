@@ -17,7 +17,7 @@ test('should transform results dict into unordered list', function(assert) {
 
   this.render(hbs`{{welp-list results=results}}`);
 
-  assert.equal(this.$().find('ul.search-results-list li').length, 2);
-  assert.equal(this.$().find('ul.search-results-list li:eq(0)').text().trim(), 'one');
-  assert.equal(this.$().find('ul.search-results-list li:eq(1)').text().trim(), 'two');
+  assert.equal(this.$().find('ul.search-results-list .result-heading').length, 2);
+  assert.equal(this.$().find('ul.search-results-list .result-heading:eq(0)').text().trim(), 'one');
+  assert.equal(this.$().find('ul.search-results-list .result-heading:eq(1)').text().trim(), 'two');
 });

@@ -44,3 +44,13 @@ test('each result shows the number of ratings from the list view', function(asse
     assert.equal(find('.search-results-list .result-reviews:eq(4)').text().trim(), 'not yet reviewed');
   });
 });
+
+test('detail route will show each rating and comment', function(assert) {
+  visit('/detail/2');
+  andThen(function() {
+    assert.equal(currentURL(), '/detail/2');
+    assert.equal(find('.detail-rating').length, 2);
+    assert.equal(find('.detail-rating:eq(0)').text().trim(), 'good food! 5 ★ review');
+    assert.equal(find('.detail-rating:eq(1)').text().trim(), 'yup 4 ★ review');
+  });
+});

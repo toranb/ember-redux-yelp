@@ -9,9 +9,6 @@ test('results route should list each result by name', function(assert) {
     assert.equal(currentURL(), '/');
     assert.equal(find('.search-results-list .result-heading').length, 5);
     assert.equal(find('.search-results-list .result-heading:eq(0)').text().trim(), 'Tacopocalypse');
-    assert.equal(find('.search-results-list .result-heading:eq(1)').text().trim(), 'Fuzzy’s Taco Shop');
-    assert.equal(find('.search-results-list .result-heading:eq(2)').text().trim(), 'Tacos Andreas');
-    assert.equal(find('.search-results-list .result-heading:eq(3)').text().trim(), 'Tasty Tacos');
     assert.equal(find('.search-results-list .result-heading:eq(4)').text().trim(), 'El Bait Shop');
   });
 });
@@ -37,10 +34,7 @@ test('each result shows the number of ratings from the list view', function(asse
   andThen(function() {
     assert.equal(currentURL(), '/');
     assert.equal(find('.search-results-list .result-reviews').length, 5);
-    assert.equal(find('.search-results-list .result-reviews:eq(0)').text().trim(), '1 review');
-    assert.equal(find('.search-results-list .result-reviews:eq(1)').text().trim(), '2 reviews');
-    assert.equal(find('.search-results-list .result-reviews:eq(2)').text().trim(), '1 review');
-    assert.equal(find('.search-results-list .result-reviews:eq(3)').text().trim(), '1 review');
+    assert.equal(find('.search-results-list .result-reviews:eq(0)').text().trim(), '★★★1 review');
     assert.equal(find('.search-results-list .result-reviews:eq(4)').text().trim(), 'not yet reviewed');
   });
 });

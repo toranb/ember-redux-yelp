@@ -47,11 +47,11 @@ test('star rating exists with onclick closure action', function(assert) {
 
   this.render(hbs`{{welp-detail result=result rate=rate}}`);
 
-  assert.equal(this.$().find('.star-group').length, 1);
-  assert.equal(this.$().find('.star-group span').length, 5);
+  assert.equal(this.$().find('.star-group').length, 2);
+  assert.equal(this.$().find('.star-group span').length, 10);
   assert.equal(this.$().find('.star-group span:eq(0)').text(), '★');
 
-  this.$().find('.star-group span:eq(4)').trigger('click');
+  this.$().find('.star-group:eq(0) span:eq(4)').trigger('click');
 });
 
 test('star rating width reflected visually', function(assert) {
@@ -62,6 +62,6 @@ test('star rating width reflected visually', function(assert) {
 
   this.render(hbs`{{welp-detail result=result rate=rate}}`);
 
-  assert.equal(this.$().find('.star-group').length, 1);
+  assert.equal(this.$().find('.star-group').length, 2);
   assert.equal(this.$().find('.star-group').attr('style'), 'width: 60%');
 });

@@ -1,7 +1,7 @@
 import Ember from 'ember';
 import { test, moduleFor } from 'ember-qunit';
 
-moduleFor('component:welp-detail');
+moduleFor('component:welp-rating');
 
 test('rated with 1 returns width of 20%', function(assert) {
   let subject = this.subject({

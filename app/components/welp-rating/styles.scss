@@ -1,0 +1,42 @@
+$star-size: 2rem;
+$star-container-width: $star-size * 5;
+
+& {
+  width: $star-container-width;
+  height: $star-size;
+  unicode-bidi: bidi-override;
+  font-size: $star-size;
+  position: relative;
+  display: inline-block;
+  margin-top: 10px;
+}
+
+.star-container{
+  width: $star-container-width;
+  height: $star-size;
+}
+
+.star-group {
+  display: inline-block;
+  color: #0275d8;
+  overflow: hidden;
+  height: $star-size;
+  z-index: 5;
+  position: absolute;
+  left: 0;
+  top: 0;
+  transition: width 1s ease-in-out;
+
+  &.backdrop{
+    color: #000000;
+    z-index: 1;
+  }
+
+  span{
+    width: $star-size;
+    height: $star-size;
+    line-height: 1;
+    display: inline-block;
+    float: left;
+  }
+}

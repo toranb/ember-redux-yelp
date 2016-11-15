@@ -161,3 +161,49 @@ test('rate should parse fetch response and merge payload with new rating', funct
     }
   });
 });
+
+test('comment should parse fetch response and merge payload with new comment', function(assert) {
+  let previous = {
+    all: {
+      '1': {
+        'id': 1,
+        'name': 'one'
+      },
+      '2': {
+        'id': 2,
+        'name': '2',
+        'reviews': [
+          {id: 9, rating: 3}
+        ]
+      },
+      '3': {
+        'id': 3,
+        'name': 'three'
+      }
+    }
+  };
+
+  deepFreeze(previous);
+
+  const result = reducer(previous, {type: 'COMMENT_ITEM', response: {id: 2, name: 'two', reviews: [{id: 9, rating: 3, comment: 'decent'}]}});
+
+  assert.deepEqual(result, {
+    all: {
+      '1': {
+        'id': 1,
+        'name': 'one'
+      },
+      '2': {
+        'id': 2,
+        'name': 'two',
+        'reviews': [
+          {id: 9, rating: 3, comment: 'decent'}
+        ]
+      },
+      '3': {
+        'id': 3,
+        'name': 'three'
+      }
+    }
+  });
+});

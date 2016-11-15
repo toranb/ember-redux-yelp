@@ -91,3 +91,30 @@ test('detail route allows user to update rating for result', function(assert) {
     assert.equal(find('.detail-rating:eq(1)').text().trim(), 'yup 2 ★ review');
   });
 });
+
+test('detail route allows user to comment on result not yet rated but only after rating it', function(assert) {
+  assert.expect(9);
+  visit('/detail/5');
+  andThen(function() {
+    assert.equal(currentURL(), '/detail/5');
+    assert.equal(find('.detail-rating').length, 0);
+    assert.equal(find('.detail-comment').length, 0);
+  });
+  click('.star-group:eq(0) span:eq(3)');
+  andThen(function() {
+    assert.equal(find('.detail-rating').length, 1);
+    assert.equal(find('.detail-comment').length, 1);
+  });
+  server.put('/api/results/:id', (schema, request) => {
+    let params = JSON.parse(request.requestBody);
+    assert.deepEqual(params, {comment: 'wat'});
+    return {result: {id: 5, reviews: [{id: 11, rating: 4, comment: 'wat', reviewed: true}]}};
+  });
+  fillIn('.detail-comment textarea', 'wat');
+  click('.detail-comment button.btn-success');
+  andThen(function() {
+    assert.equal(find('.detail-rating').length, 1);
+    assert.equal(find('.detail-comment').length, 1);
+    assert.equal(find('.detail-rating:eq(0)').text().trim(), 'wat 4 ★ review');
+  });
+});

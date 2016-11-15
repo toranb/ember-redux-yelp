@@ -18,6 +18,12 @@ export default ((state, action) => {
         all: merge,
         selectedId: action.response.id
       });
+    case 'RATE_ITEM':
+      const rateResult = {[action.response.id]: action.response};
+      const rateMerge = _.extend({}, state.all, rateResult);
+      return Object.assign({}, state, {
+        all: rateMerge
+      });
     default:
       return state || initialState;
   }

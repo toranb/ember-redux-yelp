@@ -48,3 +48,23 @@ test('detail route will show each rating and comment', function(assert) {
     assert.equal(find('.detail-rating:eq(1)').text().trim(), 'yup 4 ★ review');
   });
 });
+
+test('detail route allows user to rate result not yet rated by the user', function(assert) {
+  assert.expect(6);
+  visit('/detail/5');
+  andThen(function() {
+    assert.equal(currentURL(), '/detail/5');
+    assert.equal(find('.detail-rating').length, 0);
+    assert.equal(find('.star-group').length, 1);
+  });
+  server.post('/api/results/:id', (schema, request) => {
+    let params = JSON.parse(request.requestBody);
+    assert.deepEqual(params, {rating: 4});
+    return {result: {id: 5, reviews: [{id: 9, rating: 4}]}};
+  });
+  click('.star-group span:eq(3)');
+  andThen(function() {
+    assert.equal(find('.detail-rating').length, 1);
+    assert.equal(find('.detail-rating:eq(0)').text().trim(), '4 ★ review');
+  });
+});

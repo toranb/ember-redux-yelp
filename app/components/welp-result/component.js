@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import fetch from 'fetch';
 import hbs from 'htmlbars-inline-precompile';
 import connect from 'ember-redux/components/connect';
 import _ from 'npm:lodash';
@@ -9,10 +10,16 @@ var stateToComputed = (state) => {
   };
 };
 
+var dispatchToActions = (dispatch) => {
+  return {
+    rate: (id, rating) => fetch(`/api/results/${id}`, {method: 'POST', body: JSON.stringify({rating: rating})}).then(fetched => fetched.json()).then((response) => dispatch({type: 'RATE_ITEM', response: response.result}))
+  };
+};
+
 var WelpResultComponent = Ember.Component.extend({
   layout: hbs`
-    {{yield result}}
+    {{yield result (action "rate")}}
   `
 });
 
-export default connect(stateToComputed)(WelpResultComponent);
+export default connect(stateToComputed, dispatchToActions)(WelpResultComponent);

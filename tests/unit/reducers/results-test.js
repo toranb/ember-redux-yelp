@@ -118,3 +118,46 @@ test('detail should parse fetch response set selectedId and merge payload', func
     selectedId: 2
   });
 });
+
+test('rate should parse fetch response and merge payload with new rating', function(assert) {
+  let previous = {
+    all: {
+      '1': {
+        'id': 1,
+        'name': 'one'
+      },
+      '2': {
+        'id': 2,
+        'name': '2'
+      },
+      '3': {
+        'id': 3,
+        'name': 'three'
+      }
+    }
+  };
+
+  deepFreeze(previous);
+
+  const result = reducer(previous, {type: 'RATE_ITEM', response: {id: 2, name: 'two', reviews: [{id: 9, rating: 3, comment: 'decent'}]}});
+
+  assert.deepEqual(result, {
+    all: {
+      '1': {
+        'id': 1,
+        'name': 'one'
+      },
+      '2': {
+        'id': 2,
+        'name': 'two',
+        'reviews': [
+          {id: 9, rating: 3, comment: 'decent'}
+        ]
+      },
+      '3': {
+        'id': 3,
+        'name': 'three'
+      }
+    }
+  });
+});

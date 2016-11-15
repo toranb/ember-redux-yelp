@@ -53,3 +53,15 @@ test('star rating exists with onclick closure action', function(assert) {
 
   this.$().find('.star-group span:eq(4)').trigger('click');
 });
+
+test('star rating width reflected visually', function(assert) {
+  this.set('rate', () => {});
+  this.set('result', {
+    id: 2, name: 'two', reviews: [{id: 9, rating: 3, reviewed: true}]
+  });
+
+  this.render(hbs`{{welp-detail result=result rate=rate}}`);
+
+  assert.equal(this.$().find('.star-group').length, 1);
+  assert.equal(this.$().find('.star-group').attr('style'), 'width: 60%');
+});

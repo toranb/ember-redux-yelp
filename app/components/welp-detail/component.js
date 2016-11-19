@@ -14,7 +14,7 @@ var WelpDetailComponent = Ember.Component.extend({
     {{#each result.reviews as |review|}}
       {{#if review.reviewed}}
         <p class="detail-comment">
-          <textarea rows="4" cols="70" oninput={{action (mut buffer) value="target.value"}}></textarea>
+          <textarea value={{review.comment}} rows="4" cols="70" oninput={{action (mut buffer) value="target.value"}}></textarea>
           <button class="btn-success" onclick={{action comment result.id buffer}}>Post Review</button>
         </p>
       {{/if}}

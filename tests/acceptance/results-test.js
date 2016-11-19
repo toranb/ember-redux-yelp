@@ -118,3 +118,30 @@ test('detail route allows user to comment on result not yet rated but only after
     assert.equal(find('.detail-rating:eq(0)').text().trim(), 'wat 4 ★ review');
   });
 });
+
+test('detail route allows user to comment after rating it', function(assert) {
+  assert.expect(12);
+  visit('/detail/2');
+  andThen(function() {
+    assert.equal(currentURL(), '/detail/2');
+    assert.equal(find('.star-group').length, 2);
+    assert.equal(find('.detail-rating').length, 2);
+    assert.equal(find('.detail-rating:eq(0)').text().trim(), 'good food! 5 ★ review');
+    assert.equal(find('.detail-rating:eq(1)').text().trim(), 'yup 4 ★ review');
+    assert.equal(find('.detail-comment').length, 1);
+    assert.equal(find('.detail-comment textarea').val(), 'yup');
+  });
+  server.put('/api/results/:id', (schema, request) => {
+    let params = JSON.parse(request.requestBody);
+    assert.deepEqual(params, {comment: 'moar'});
+    return {result: {id: 2, reviews: [{id: 2, rating: 5, comment: 'good food!'}, {id: 3, rating: 4, comment: 'moar', reviewed: true}]}};
+  });
+  fillIn('.detail-comment textarea', 'moar');
+  click('.detail-comment button.btn-success');
+  andThen(function() {
+    assert.equal(find('.detail-rating').length, 2);
+    assert.equal(find('.detail-rating:eq(1)').text().trim(), 'moar 4 ★ review');
+    assert.equal(find('.detail-comment').length, 1);
+    assert.equal(find('.detail-comment textarea').val(), 'moar');
+  });
+});

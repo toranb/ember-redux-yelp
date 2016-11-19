@@ -113,3 +113,16 @@ test('clicking btn-success will trigger wired closure action', function(assert) 
   this.$().find('.detail-comment textarea').val('wat').trigger('input');
   this.$().find('.detail-comment button.btn-success').trigger('click');
 });
+
+test('textarea will show the value of an existing comment', function(assert) {
+  this.set('rate', () => {});
+  this.set('comment', () => {});
+  this.set('result', {
+    id: 2, name: 'two', reviews: [{id: 9, rating: 3, comment: 'foo', reviewed: true}]
+  });
+
+  this.render(hbs`{{welp-detail result=result rate=rate comment=comment}}`);
+
+  assert.equal(this.$().find('.detail-comment textarea').length, 1);
+  assert.equal(this.$().find('.detail-comment textarea').val(), 'foo');
+});

@@ -20,4 +20,17 @@ export default function() {
     result.reviews.push({id: next, rating: json.rating, reviewed: true});
     return result.update();
   });
+  this.put('/api/results/:id', (schema, request) => {
+    var id = request.params.id;
+    var result = schema.results.find(id);
+    var json = JSON.parse(request.requestBody);
+    var match = result.reviews.filter(function(review) {
+        return review.reviewed ? review : undefined;
+    });
+    if (match.length > 0) {
+        match[0]['comment'] = json.comment;
+        return result.update(match);
+    }
+    return result.update();
+  });
 }

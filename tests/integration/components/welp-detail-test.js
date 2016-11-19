@@ -9,7 +9,7 @@ test('should display result detail name', function(assert) {
   this.set('comment', () => {});
   this.set('rate', () => {});
   this.set('result', {
-    id: 2, name: 'two'
+    id: 2, name: 'two', reviews: []
   });
 
   this.render(hbs`{{welp-detail result=result rate=rate comment=comment}}`);
@@ -45,7 +45,7 @@ test('star rating exists with onclick closure action', function(assert) {
     assert.equal(rating, 5);
   });
   this.set('result', {
-    id: 2, name: 'two'
+    id: 2, name: 'two', reviews: []
   });
 
   this.render(hbs`{{welp-detail result=result rate=rate comment=comment}}`);
@@ -124,5 +124,24 @@ test('textarea will show the value of an existing comment', function(assert) {
   this.render(hbs`{{welp-detail result=result rate=rate comment=comment}}`);
 
   assert.equal(this.$().find('.detail-comment textarea').length, 1);
+  assert.equal(this.$().find('.detail-comment textarea').val(), 'foo');
+});
+
+test('clicking btn-danger will reset to previous (persisted) comment', function(assert) {
+  this.set('rate', () => {});
+  this.set('comment', () => {});
+  this.set('result', {
+    id: 2, name: 'two', reviews: [{id: 9, rating: 3, comment: 'foo', reviewed: true}]
+  });
+
+  this.render(hbs`{{welp-detail result=result rate=rate comment=comment}}`);
+
+  assert.equal(this.$().find('.detail-comment textarea').val(), 'foo');
+  assert.equal(this.$().find('.detail-comment button.btn-danger').text(), 'Reset');
+
+  this.$().find('.detail-comment textarea').val('wat').trigger('input');
+  assert.equal(this.$().find('.detail-comment textarea').val(), 'wat');
+
+  this.$().find('.detail-comment button.btn-danger').trigger('click');
   assert.equal(this.$().find('.detail-comment textarea').val(), 'foo');
 });

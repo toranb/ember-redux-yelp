@@ -2,6 +2,15 @@ import Ember from 'ember';
 import hbs from 'htmlbars-inline-precompile';
 
 var WelpDetailComponent = Ember.Component.extend({
+  didReceiveAttrs(...args) {
+    this._super(args);
+    var result = args[0].newAttrs.result;
+    result.value.reviews.forEach((review) => {
+      if (review.reviewed) {
+        this.set('buffer', review.comment);
+      }
+    });
+  },
   layout: hbs`
     {{#each result.reviews as |review|}}
       <div class="detail-rating">{{review.comment}} {{review.rating}} ★ review</div>
@@ -14,8 +23,9 @@ var WelpDetailComponent = Ember.Component.extend({
     {{#each result.reviews as |review|}}
       {{#if review.reviewed}}
         <p class="detail-comment">
-          <textarea value={{review.comment}} rows="4" cols="70" oninput={{action (mut buffer) value="target.value"}}></textarea>
+          <textarea value={{buffer}} rows="4" cols="70" oninput={{action (mut buffer) value="target.value"}}></textarea>
           <button class="btn-success" onclick={{action comment result.id buffer}}>Post Review</button>
+          <button class="btn-danger" onclick={{action (mut buffer) review.comment}}>Reset</button>
         </p>
       {{/if}}
     {{/each}}

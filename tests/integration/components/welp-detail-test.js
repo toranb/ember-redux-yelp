@@ -82,6 +82,7 @@ test('when result has a rating the textarea/buttons are visible for comment', fu
   assert.equal(this.$().find('.detail-comment textarea').length, 1);
   assert.equal(this.$().find('.detail-comment button.btn-success').length, 1);
   assert.equal(this.$().find('.detail-comment button.btn-success').text(), 'Post Review');
+  assert.equal(this.$().find('.detail-comment .note').text(), '*You can always edit your review later');
 });
 
 test('when result has no rating the textarea/buttons are not visible for comment', function(assert) {

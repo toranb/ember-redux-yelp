@@ -1,1 +1,12 @@
+$bp-small: 650px;
+
+body {
+  font-size: 16px;
+}
+
+.row {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
 @import "pod-styles";

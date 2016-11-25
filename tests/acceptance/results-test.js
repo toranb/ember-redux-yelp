@@ -7,6 +7,7 @@ test('results route should list each result by name', function(assert) {
   visit('/');
   andThen(function() {
     assert.equal(currentURL(), '/');
+    assert.equal(find('.site-logo').length, 1);
     assert.equal(find('.search-results-list .result-heading').length, 5);
     assert.equal(find('.search-results-list .result-heading:eq(0)').text().trim(), 'Tacopocalypse');
     assert.equal(find('.search-results-list .result-heading:eq(4)').text().trim(), 'El Bait Shop');
@@ -34,7 +35,7 @@ test('each result shows the number of ratings from the list view', function(asse
   andThen(function() {
     assert.equal(currentURL(), '/');
     assert.equal(find('.search-results-list .result-reviews').length, 5);
-    assert.equal(find('.search-results-list .result-reviews:eq(0)').text().trim(), '★★★1 review');
+    assert.equal(find('.search-results-list .result-reviews:eq(0)').text().trim(), '★★★ 1 review');
     assert.equal(find('.search-results-list .result-reviews:eq(4)').text().trim(), 'not yet reviewed');
   });
 });

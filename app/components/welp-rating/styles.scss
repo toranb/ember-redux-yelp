@@ -16,6 +16,10 @@ $star-container-width: $star-size * 5;
   height: $star-size;
 }
 
+.star-container span {
+  cursor: pointer;
+}
+
 .star-group {
   display: inline-block;
   color: #0275d8;

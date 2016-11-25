@@ -1,0 +1,18 @@
+& {
+  padding: 1rem 0;
+  background: #D82115 url(/images/header.png) no-repeat center;
+}
+
+.site-logo,
+.search-form {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.site-logo > img {
+  display: block;
+}
+
+.search-form {
+  margin: 0 10px;
+}

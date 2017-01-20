@@ -61,7 +61,7 @@ test('detail route allows user to rate result not yet rated by the user', functi
   server.post('/api/results/:id', (schema, request) => {
     let params = JSON.parse(request.requestBody);
     assert.deepEqual(params, {rating: 4});
-    return {result: {id: 5, reviews: [{id: 9, rating: 4}]}};
+    return {result: {id: 5, reviews: [{id: 9, rating: 4, userId: 34}]}};
   });
   click('.star-group:eq(0) span:eq(3)');
   andThen(function() {
@@ -83,7 +83,7 @@ test('detail route allows user to update rating for result', function(assert) {
   server.post('/api/results/:id', (schema, request) => {
     let params = JSON.parse(request.requestBody);
     assert.deepEqual(params, {rating: 2});
-    return {result: {id: 2, reviews: [{id: 2, rating: 5, comment: 'good food!'}, {id: 3, rating: 2, comment: 'yup', reviewed: true}]}};
+    return {result: {id: 2, reviews: [{id: 2, rating: 5, comment: 'good food!', userId: 33}, {id: 3, rating: 2, comment: 'yup', userId: 39}]}};
   });
   click('.star-group:eq(0) span:eq(1)');
   andThen(function() {
@@ -109,7 +109,7 @@ test('detail route allows user to comment on result not yet rated but only after
   server.put('/api/results/:id', (schema, request) => {
     let params = JSON.parse(request.requestBody);
     assert.deepEqual(params, {comment: 'wat'});
-    return {result: {id: 5, reviews: [{id: 11, rating: 4, comment: 'wat', reviewed: true}]}};
+    return {result: {id: 5, reviews: [{id: 11, rating: 4, comment: 'wat', userId: 39}]}};
   });
   fillIn('.detail-comment textarea', 'wat');
   click('.detail-comment button.btn-success');
@@ -135,7 +135,7 @@ test('detail route allows user to comment after rating it', function(assert) {
   server.put('/api/results/:id', (schema, request) => {
     let params = JSON.parse(request.requestBody);
     assert.deepEqual(params, {comment: 'moar'});
-    return {result: {id: 2, reviews: [{id: 2, rating: 5, comment: 'good food!'}, {id: 3, rating: 4, comment: 'moar', reviewed: true}]}};
+    return {result: {id: 2, reviews: [{id: 2, rating: 5, comment: 'good food!', userId: 33}, {id: 3, rating: 4, comment: 'moar', userId: 39}]}};
   });
   fillIn('.detail-comment textarea', 'moar');
   click('.detail-comment button.btn-success');

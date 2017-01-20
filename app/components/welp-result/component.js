@@ -2,11 +2,11 @@ import Ember from 'ember';
 import fetch from 'fetch';
 import hbs from 'htmlbars-inline-precompile';
 import connect from 'ember-redux/components/connect';
-import _ from 'npm:lodash';
+import { getSelectedResult } from '../../reducers/results';
 
 var stateToComputed = (state) => {
   return {
-    result: _.get(state.results.all, state.results.selectedId)
+    result: getSelectedResult(state)
   };
 };
 

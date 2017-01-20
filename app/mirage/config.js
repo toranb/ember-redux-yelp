@@ -10,14 +10,14 @@ export default function() {
     var result = schema.results.find(id);
     var json = JSON.parse(request.requestBody);
     var match = result.reviews.filter(function(review) {
-      return review.reviewed ? review : undefined;
+      return review.userId === 39 ? review : undefined;
     });
     if (match.length > 0) {
       match[0]['rating'] = json.rating;
       return result.update(match);
     }
     next = next + 1;
-    result.reviews.push({id: next, rating: json.rating, reviewed: true});
+    result.reviews.push({id: next, rating: json.rating, userId: 39});
     return result.update();
   });
   this.put('/api/results/:id', (schema, request) => {
@@ -25,7 +25,7 @@ export default function() {
     var result = schema.results.find(id);
     var json = JSON.parse(request.requestBody);
     var match = result.reviews.filter(function(review) {
-        return review.reviewed ? review : undefined;
+        return review.userId === 39 ? review : undefined;
     });
     if (match.length > 0) {
         match[0]['comment'] = json.comment;

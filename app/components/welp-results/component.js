@@ -1,10 +1,11 @@
 import Ember from 'ember';
 import hbs from 'htmlbars-inline-precompile';
 import connect from 'ember-redux/components/connect';
+import { getResults } from '../../reducers/results';
 
 var stateToComputed = (state) => {
   return {
-    results: state.results.all
+    results: getResults(state)
   };
 };
 

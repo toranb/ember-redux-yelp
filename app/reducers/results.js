@@ -1,4 +1,7 @@
 import _ from 'npm:lodash';
+import reselect from 'npm:reselect';
+
+const { createSelector } = reselect;
 
 const initialState = {
   all: undefined,
@@ -29,3 +32,29 @@ export default ((state, action) => {
       return state || initialState;
   }
 });
+
+const results = state => state.results.all;
+const selectedId = state => state.results.selectedId;
+const authenticatedUserId = state => state.users.authenticatedId;
+
+export const getResults = (state) => {
+  return results(state);
+};
+
+export const getSelectedResult = createSelector(
+  results,
+  selectedId,
+  authenticatedUserId,
+  (results, selectedId, authenticatedUserId) => {
+    return _.map([results[selectedId]], result => {
+      var reviews = result.reviews.map(review => {
+        return _.defaults({
+          reviewed: review.userId === authenticatedUserId
+        }, review);
+      });
+      return _.defaults({
+        reviews: reviews
+      }, result);
+    })[0];
+  }
+);

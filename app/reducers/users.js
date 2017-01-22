@@ -1,4 +1,4 @@
-import _ from 'npm:lodash';
+import _ from 'lodash';
 
 const initialState = {
   all: undefined,

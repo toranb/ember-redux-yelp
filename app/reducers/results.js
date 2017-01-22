@@ -1,5 +1,5 @@
-import _ from 'npm:lodash';
-import reselect from 'npm:reselect';
+import _ from 'lodash';
+import reselect from 'reselect';
 
 const { createSelector } = reselect;
 

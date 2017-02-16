@@ -11,7 +11,5 @@ export default Ember.Helper.helper(function(params) {
     return prev + next;
   });
   var fullStars = Math.floor(total / reviews.length);
-  var halfStars = total / reviews.length;
-  var stars = (new Array(fullStars + 1)).join('★');
-  return fullStars === halfStars ? stars : stars.concat('½');
+  return (new Array(fullStars + 1)).join('★');
 });

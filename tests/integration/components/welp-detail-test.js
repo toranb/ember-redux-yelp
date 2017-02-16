@@ -1,5 +1,7 @@
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
+import Ember from 'ember';
+import WelpRatingComponent from 'welp/components/welp-rating/component';
 
 moduleForComponent('welp-detail', 'Integration | Component | welp-detail', {
   integration: true
@@ -58,6 +60,12 @@ test('star rating exists with onclick closure action', function(assert) {
 });
 
 test('star rating width reflected visually', function(assert) {
+  let StubRatingComponent = WelpRatingComponent.extend({
+    width: Ember.computed(function() {
+      return '60';
+    })
+  });
+  this.registry.register('component:welp-rating', StubRatingComponent);
   this.set('comment', () => {});
   this.set('rate', () => {});
   this.set('result', {

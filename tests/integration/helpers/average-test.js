@@ -52,12 +52,3 @@ test('renders 5 stars with 1 review that equals 5', function(assert) {
   this.render(hbs`{{average reviews}}`);
   assert.equal(this.$().text().trim(), '★★★★★');
 });
-
-test('renders 4.5 stars with 2 reviews that sum 9 total', function(assert) {
-  this.set('reviews', [
-    {id: 1, rating: 4},
-    {id: 2, rating: 5}
-  ]);
-  this.render(hbs`{{average reviews}}`);
-  assert.equal(this.$().text().trim(), '★★★★½');
-});

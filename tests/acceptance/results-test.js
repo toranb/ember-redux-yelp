@@ -4,6 +4,8 @@ import moduleForAcceptance from 'welp/tests/helpers/module-for-acceptance';
 moduleForAcceptance('Acceptance | results');
 
 test('results route should list each result by name', function(assert) {
+  assert.expect(5);
+  server.loadFixtures('results');
   visit('/');
   andThen(function() {
     assert.equal(currentURL(), '/');
@@ -15,6 +17,8 @@ test('results route should list each result by name', function(assert) {
 });
 
 test('clicking result name will redirect to the detail route', function(assert) {
+  assert.expect(6);
+  server.loadFixtures('results');
   visit('/');
   click('.search-results-list li:eq(3) a');
   andThen(function() {
@@ -30,17 +34,9 @@ test('clicking result name will redirect to the detail route', function(assert) 
   });
 });
 
-test('each result shows the number of ratings from the list view', function(assert) {
-  visit('/');
-  andThen(function() {
-    assert.equal(currentURL(), '/');
-    assert.equal(find('.search-results-list .result-reviews').length, 5);
-    assert.equal(find('.search-results-list .result-reviews:eq(0)').text().trim(), '★★★ 1 review');
-    assert.equal(find('.search-results-list .result-reviews:eq(4)').text().trim(), 'not yet reviewed');
-  });
-});
-
 test('detail route will show each rating and comment', function(assert) {
+  assert.expect(4);
+  server.loadFixtures('results');
   visit('/detail/2');
   andThen(function() {
     assert.equal(currentURL(), '/detail/2');
@@ -52,6 +48,7 @@ test('detail route will show each rating and comment', function(assert) {
 
 test('detail route allows user to rate result not yet rated by the user', function(assert) {
   assert.expect(6);
+  server.loadFixtures('results');
   visit('/detail/5');
   andThen(function() {
     assert.equal(currentURL(), '/detail/5');
@@ -72,6 +69,7 @@ test('detail route allows user to rate result not yet rated by the user', functi
 
 test('detail route allows user to update rating for result', function(assert) {
   assert.expect(9);
+  server.loadFixtures('results');
   visit('/detail/2');
   andThen(function() {
     assert.equal(currentURL(), '/detail/2');
@@ -95,6 +93,7 @@ test('detail route allows user to update rating for result', function(assert) {
 
 test('detail route allows user to comment on result not yet rated but only after rating it', function(assert) {
   assert.expect(9);
+  server.loadFixtures('results');
   visit('/detail/5');
   andThen(function() {
     assert.equal(currentURL(), '/detail/5');
@@ -122,6 +121,7 @@ test('detail route allows user to comment on result not yet rated but only after
 
 test('detail route allows user to comment after rating it', function(assert) {
   assert.expect(12);
+  server.loadFixtures('results');
   visit('/detail/2');
   andThen(function() {
     assert.equal(currentURL(), '/detail/2');
@@ -144,5 +144,71 @@ test('detail route allows user to comment after rating it', function(assert) {
     assert.equal(find('.detail-rating:eq(1)').text().trim(), 'moar 4 ★ review');
     assert.equal(find('.detail-comment').length, 1);
     assert.equal(find('.detail-comment textarea').val(), 'moar');
+  });
+});
+
+test('renders nothing for average when reviews undefined', function(assert) {
+  assert.expect(2);
+  let reviews;
+  server.create('result', 1, {id: 1, reviews: reviews});
+  visit('/');
+  andThen(function() {
+    assert.equal(find('.search-results-list .result-reviews').length, 1);
+    assert.equal(find('.search-results-list .result-reviews:eq(0)').text().trim(), 'not yet reviewed');
+  });
+});
+
+test('renders nothing for average when reviews is empty array', function(assert) {
+  assert.expect(2);
+  let reviews = [];
+  server.create('result', 1, {id: 1, reviews: reviews});
+  visit('/');
+  andThen(function() {
+    assert.equal(find('.search-results-list .result-reviews').length, 1);
+    assert.equal(find('.search-results-list .result-reviews:eq(0)').text().trim(), 'not yet reviewed');
+  });
+});
+
+test('renders 4 stars with 2 reviews that sum 8 total', function(assert) {
+  assert.expect(2);
+  let reviews = [{id: 1, rating: 4},{id: 2, rating: 4}];
+  server.create('result', 1, {id: 1, reviews: reviews});
+  visit('/');
+  andThen(function() {
+    assert.equal(find('.search-results-list .result-reviews').length, 1);
+    assert.equal(find('.search-results-list .result-reviews:eq(0)').text().trim(), '★★★★ 2 reviews');
+  });
+});
+
+test('renders 3 stars with 3 reviews that sum 9 total', function(assert) {
+  assert.expect(2);
+  let reviews = [{id: 1, rating: 1}, {id: 2, rating: 6}, {id: 3, rating: 2}];
+  server.create('result', 1, {id: 1, reviews: reviews});
+  visit('/');
+  andThen(function() {
+    assert.equal(find('.search-results-list .result-reviews').length, 1);
+    assert.equal(find('.search-results-list .result-reviews:eq(0)').text().trim(), '★★★ 3 reviews');
+  });
+});
+
+test('renders 3 stars with 2 reviews that sum 6 total', function(assert) {
+  assert.expect(2);
+  let reviews = [{id: 1, rating: 1}, {id: 2, rating: 5}];
+  server.create('result', 1, {id: 1, reviews: reviews});
+  visit('/');
+  andThen(function() {
+    assert.equal(find('.search-results-list .result-reviews').length, 1);
+    assert.equal(find('.search-results-list .result-reviews:eq(0)').text().trim(), '★★★ 2 reviews');
+  });
+});
+
+test('renders 5 stars with 1 review that equals 5', function(assert) {
+  assert.expect(2);
+  let reviews = [{id: 1, rating: 5}];
+  server.create('result', 1, {id: 1, reviews: reviews});
+  visit('/');
+  andThen(function() {
+    assert.equal(find('.search-results-list .result-reviews').length, 1);
+    assert.equal(find('.search-results-list .result-reviews:eq(0)').text().trim(), '★★★★★ 1 review');
   });
 });

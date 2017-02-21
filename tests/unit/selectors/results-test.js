@@ -1,5 +1,5 @@
 import { test, module } from 'qunit';
-import { getSelectedResult } from 'welp/reducers/results';
+import { getSelectedResult } from 'yelp-redux-store/reducers/results';
 import deepFreeze from 'welp/tests/helpers/deep-freeze';
 
 module('Unit | Selectors | results');

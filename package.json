@@ -54,5 +54,10 @@
     "redux": "3.6.0",
     "redux-thunk": "2.2.0",
     "reselect": "2.5.4"
+  },
+  "ember-addon": {
+    "paths": [
+      "lib/yelp-redux-store"
+    ]
   }
 }

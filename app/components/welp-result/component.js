@@ -2,7 +2,7 @@ import Ember from 'ember';
 import fetch from 'fetch';
 import hbs from 'htmlbars-inline-precompile';
 import connect from 'ember-redux/components/connect';
-import { getSelectedResult } from '../../reducers/results';
+import { getSelectedResult } from 'yelp-redux-store/reducers/results';
 
 var stateToComputed = (state) => {
   return {

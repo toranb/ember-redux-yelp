@@ -147,68 +147,15 @@ test('detail route allows user to comment after rating it', function(assert) {
   });
 });
 
-test('renders nothing for average when reviews undefined', function(assert) {
-  assert.expect(2);
-  let reviews;
-  server.create('result', 1, {id: 1, reviews: reviews});
-  visit('/');
-  andThen(function() {
-    assert.equal(find('.search-results-list .result-reviews').length, 1);
-    assert.equal(find('.search-results-list .result-reviews:eq(0)').text().trim(), 'not yet reviewed');
-  });
-});
-
-test('renders nothing for average when reviews is empty array', function(assert) {
-  assert.expect(2);
-  let reviews = [];
-  server.create('result', 1, {id: 1, reviews: reviews});
-  visit('/');
-  andThen(function() {
-    assert.equal(find('.search-results-list .result-reviews').length, 1);
-    assert.equal(find('.search-results-list .result-reviews:eq(0)').text().trim(), 'not yet reviewed');
-  });
-});
-
-test('renders 4 stars with 2 reviews that sum 8 total', function(assert) {
-  assert.expect(2);
-  let reviews = [{id: 1, rating: 4},{id: 2, rating: 4}];
-  server.create('result', 1, {id: 1, reviews: reviews});
-  visit('/');
-  andThen(function() {
-    assert.equal(find('.search-results-list .result-reviews').length, 1);
-    assert.equal(find('.search-results-list .result-reviews:eq(0)').text().trim(), '★★★★ 2 reviews');
-  });
-});
-
-test('renders 3 stars with 3 reviews that sum 9 total', function(assert) {
-  assert.expect(2);
-  let reviews = [{id: 1, rating: 1}, {id: 2, rating: 6}, {id: 3, rating: 2}];
-  server.create('result', 1, {id: 1, reviews: reviews});
-  visit('/');
-  andThen(function() {
-    assert.equal(find('.search-results-list .result-reviews').length, 1);
-    assert.equal(find('.search-results-list .result-reviews:eq(0)').text().trim(), '★★★ 3 reviews');
-  });
-});
-
-test('renders 3 stars with 2 reviews that sum 6 total', function(assert) {
-  assert.expect(2);
-  let reviews = [{id: 1, rating: 1}, {id: 2, rating: 5}];
-  server.create('result', 1, {id: 1, reviews: reviews});
-  visit('/');
-  andThen(function() {
-    assert.equal(find('.search-results-list .result-reviews').length, 1);
-    assert.equal(find('.search-results-list .result-reviews:eq(0)').text().trim(), '★★★ 2 reviews');
-  });
-});
-
-test('renders 5 stars with 1 review that equals 5', function(assert) {
-  assert.expect(2);
+test('renders average and number of reviews together', function(assert) {
+  assert.expect(3);
   let reviews = [{id: 1, rating: 5}];
   server.create('result', 1, {id: 1, reviews: reviews});
+  server.create('result', 1, {id: 2, reviews: []});
   visit('/');
   andThen(function() {
-    assert.equal(find('.search-results-list .result-reviews').length, 1);
+    assert.equal(find('.search-results-list .result-reviews').length, 2);
     assert.equal(find('.search-results-list .result-reviews:eq(0)').text().trim(), '★★★★★ 1 review');
+    assert.equal(find('.search-results-list .result-reviews:eq(1)').text().trim(), 'not yet reviewed');
   });
 });

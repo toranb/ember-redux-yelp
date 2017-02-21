@@ -1,3 +1,4 @@
+import Ember from 'ember';
 import { test, moduleFor } from 'ember-qunit';
 
 moduleFor('component:welp-rating');
@@ -10,7 +11,7 @@ test('rated with 1 returns width of 20%', function(assert) {
     }
   });
   let width = subject.get('width');
-  assert.equal(width.toString(), '20');
+  assert.equal(width.toString(), 'width: 20%');
 });
 
 test('rated with 2 returns width of 40%', function(assert) {
@@ -21,7 +22,7 @@ test('rated with 2 returns width of 40%', function(assert) {
     }
   });
   let width = subject.get('width');
-  assert.equal(width.toString(), '40');
+  assert.equal(width.toString(), 'width: 40%');
 });
 
 test('rated with 3 returns width of 60%', function(assert) {
@@ -32,7 +33,7 @@ test('rated with 3 returns width of 60%', function(assert) {
     }
   });
   let width = subject.get('width');
-  assert.equal(width.toString(), '60');
+  assert.equal(width.toString(), 'width: 60%');
 });
 
 test('rated with 4 returns width of 80%', function(assert) {
@@ -43,7 +44,7 @@ test('rated with 4 returns width of 80%', function(assert) {
     }
   });
   let width = subject.get('width');
-  assert.equal(width.toString(), '80');
+  assert.equal(width.toString(), 'width: 80%');
 });
 
 test('rated with 5 returns width of 100%', function(assert) {
@@ -54,7 +55,7 @@ test('rated with 5 returns width of 100%', function(assert) {
     }
   });
   let width = subject.get('width');
-  assert.equal(width.toString(), '100');
+  assert.equal(width.toString(), 'width: 100%');
 });
 
 test('not yet rated returns width of 0%', function(assert) {
@@ -65,7 +66,7 @@ test('not yet rated returns width of 0%', function(assert) {
     }
   });
   let width = subject.get('width');
-  assert.equal(width.toString(), '0');
+  assert.equal(width.toString(), 'width: 0%');
 });
 
 test('width will compute when reviews show reviewed is truthy', function(assert) {
@@ -76,7 +77,7 @@ test('width will compute when reviews show reviewed is truthy', function(assert)
     }
   });
   let width = subject.get('width');
-  assert.equal(width.toString(), '80');
+  assert.equal(width.toString(), 'width: 80%');
 });
 
 test('width will not compute when reviews show reviewed not truthy', function(assert) {
@@ -87,5 +88,16 @@ test('width will not compute when reviews show reviewed not truthy', function(as
     }
   });
   let width = subject.get('width');
-  assert.equal(width.toString(), '0');
+  assert.equal(width.toString(), 'width: 0%');
+});
+
+test('width is htmlSafe', function(assert) {
+  let subject = this.subject({
+    result: {
+      id: 1,
+      reviews: [{id: 2, rating: 4}]
+    }
+  });
+  let width = subject.get('width');
+  assert.ok(width instanceof Ember.Handlebars.SafeString);
 });

@@ -25,7 +25,7 @@ var WelpListComponent = Ember.Component.extend({
                 <div class="result-review">
                   <p>
                     {{result.reviews.0.comment}}
-                    <a href="javascript:void(0);">read more</a>
+                    {{#link-to "results.detail" result.id}}read more{{/link-to}}
                   </p>
                 </div>
               </li>

@@ -51,7 +51,19 @@ test('should include average star rating', function(assert) {
   assert.equal(trim(this.$().find('ul.search-results-list .result-review:eq(0)').text().trim()), 'yup read more');
 });
 
-test('clicking read more will redirect to detail route', function(assert) {
+test('toran clicking read more will redirect to detail route', function(assert) {
+  assert.expect(3);
+
+  let transitions = [];
+  let FakeRoutingService = Ember.Service.extend({
+    generateURL: () => { return; },
+    transitionTo: (name, args) => {
+      transitions.push({name: name, args: args});
+    }
+  });
+  this.registry.register('service:-routing', FakeRoutingService);
+  this.inject.service('-routing');
+
   this.set('results', {
     1: {
       id: 1, name: 'one', reviews: [{id: 1, rating: 1, comment: 'yup'}]
@@ -62,4 +74,7 @@ test('clicking read more will redirect to detail route', function(assert) {
 
   assert.equal(this.$().find('ul.search-results-list .result-review').length, 1);
   assert.equal(this.$().find('ul.search-results-list .result-review:eq(0) a').text(), 'read more');
+
+  this.$().find('ul.search-results-list .result-review:eq(0) a').trigger('click');
+  assert.deepEqual(transitions, [{name: 'results.detail', args: [1]}]);
 });

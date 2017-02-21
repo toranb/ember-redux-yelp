@@ -19,7 +19,7 @@ var WelpRatingComponent = Ember.Component.extend({
     </div>
   `,
   stars: [1, 2, 3, 4, 5],
-  width: Ember.computed(function() {
+  width: Ember.computed('result.reviews', function() {
     var reviews = this.get('result.reviews') || [];
     var reviewed = reviews.filter((review) => {
       return review.reviewed ? review : undefined;

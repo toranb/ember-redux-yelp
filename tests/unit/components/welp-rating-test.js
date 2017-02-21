@@ -101,3 +101,24 @@ test('width is htmlSafe', function(assert) {
   let width = subject.get('width');
   assert.ok(width instanceof Ember.Handlebars.SafeString);
 });
+
+test('toran width will recompute when reviews are added', function(assert) {
+  let subject = this.subject({
+    result: {
+      id: 1,
+      reviews: [{id: 2, rating: 3}]
+    }
+  });
+  let width = subject.get('width');
+  assert.equal(width.toString(), 'width: 0%');
+
+  Ember.run(() => {
+    subject.set('result.reviews', [
+      {id: 2, rating: 3},
+      {id: 3, rating: 5, reviewed: true}
+    ]);
+  });
+
+  width = subject.get('width');
+  assert.equal(width.toString(), 'width: 100%');
+});

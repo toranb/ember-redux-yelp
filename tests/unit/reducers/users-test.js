@@ -1,5 +1,5 @@
 import { test, module } from 'qunit';
-import reducer from 'welp/reducers/users';
+import reducer from 'yelp-redux-store/reducers/users';
 import deepFreeze from 'welp/tests/helpers/deep-freeze';
 
 module('Unit | Reducers | users');

@@ -2,10 +2,9 @@ import Ember from 'ember';
 import hbs from 'htmlbars-inline-precompile';
 
 var WelpDetailComponent = Ember.Component.extend({
-  didReceiveAttrs(...args) {
-    this._super(args);
-    var result = args[0].newAttrs.result;
-    result.value.reviews.forEach((review) => {
+  didReceiveAttrs() {
+    this._super(...arguments);
+    this.get('result.reviews').forEach((review) => {
       if (review.reviewed) {
         this.set('buffer', review.comment);
       }

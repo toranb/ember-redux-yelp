@@ -11,6 +11,7 @@ var WelpHeaderComponent = Ember.Component.extend({
           <input class="form-control" type="text" placeholder="find tacos"/>
           <input class="form-control" type="text" placeholder="near des moines"/>
         </div>
+        <button style="float: right;" onclick={{action logout}}>logout</button>
       </div>
     `
 });

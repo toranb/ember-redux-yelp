@@ -1,4 +1,10 @@
-{{#welp-layout}}
-  {{welp-header}}
-  {{outlet}}
+{{#welp-layout as |authenticated logout|}}
+  {{#if authenticated}}
+      {{welp-header logout=logout}}
+      {{outlet}}
+  {{else}}
+    {{#welp-login as |username login|}}
+      {{login-form username=username login=login}}
+    {{/welp-login}}
+  {{/if}}
 {{/welp-layout}}

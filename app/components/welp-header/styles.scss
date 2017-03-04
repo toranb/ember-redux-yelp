@@ -1,6 +1,8 @@
 & {
   padding: 1rem 0;
-  background: #D82115 url(/images/header.png) no-repeat center;
+  opacity: 0.9;
+  background-color: var(--theme-color)!important;
+  background: url(/images/header.png) no-repeat center;
 }
 
 .site-logo,

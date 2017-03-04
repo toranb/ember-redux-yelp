@@ -5,6 +5,19 @@ export default function() {
   this.logging = false;
   this.get('/api/results');
   this.get('/api/results/:id');
+  this.post('/api/login', (schema, request) => {
+    var themeId, themeName, username;
+    var json = JSON.parse(request.requestBody);
+    username = json.username;
+    if(username === 'first') {
+      themeId = 2;
+      themeName = 'red';
+    } else {
+      themeId = 3;
+      themeName = 'blue';
+    }
+    return {username: username, themeId: themeId, themeName: themeName};
+  });
   this.post('/api/results/:id', (schema, request) => {
     var id = request.params.id;
     var result = schema.results.find(id);

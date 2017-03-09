@@ -15,9 +15,11 @@ var dispatchToActions = (dispatch) => {
 };
 
 var WelpLayoutComponent = Ember.Component.extend({
-    layout: hbs`
-      {{yield authenticated (action "logout")}}
-    `
+  theme: Ember.inject.service(),
+  themeName: Ember.computed.alias('theme.activeThemeName'),
+  layout: hbs`
+    {{yield authenticated themeName (action "logout")}}
+  `
 });
 
 export default connect(stateToComputed, dispatchToActions)(WelpLayoutComponent);

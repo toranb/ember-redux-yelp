@@ -9,12 +9,15 @@ export default function() {
     var themeId, themeName, username;
     var json = JSON.parse(request.requestBody);
     username = json.username;
-    if(username === 'first') {
-      themeId = 2;
-      themeName = 'red';
-    } else {
+    if(username === 'green') {
       themeId = 3;
-      themeName = 'blue';
+      themeName = 'theme-green';
+    } else if(username === 'blue') {
+      themeId = 2;
+      themeName = 'theme-blue';
+    } else {
+      themeId = 1;
+      themeName = 'theme-default';
     }
     return {username: username, themeId: themeId, themeName: themeName};
   });

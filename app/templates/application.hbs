@@ -1,7 +1,7 @@
-{{#welp-layout as |authenticated logout|}}
+{{#welp-layout as |authenticated themeName logout|}}
   {{#if authenticated}}
-      {{welp-header logout=logout}}
-      {{outlet}}
+    {{welp-header class=themeName logout=logout}}
+    {{outlet}}
   {{else}}
     {{#welp-login as |username login|}}
       {{login-form username=username login=login}}

@@ -5,6 +5,14 @@
   background: url(/images/header.png) no-repeat center;
 }
 
+&.default {
+  background-color: #D82115!important;
+}
+
+&.blue {
+  background-color: blue!important;
+}
+
 .site-logo,
 .search-form {
   display: inline-block;

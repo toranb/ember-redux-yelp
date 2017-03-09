@@ -1,6 +1,4 @@
-//TODO: move these into the theme service file?
-const DEFAULT_THEME_ID = 1;
-const DEFAULT_THEME_NAME = 'default';
+import { DEFAULT_THEME_ID, DEFAULT_THEME_NAME } from 'welp/services/theme';
 
 const initialState = {
   username: undefined,

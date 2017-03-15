@@ -1,22 +1,33 @@
 import Ember from 'ember';
+import _ from 'lodash';
 
 export const DEFAULT_THEME_NAME = 'theme-default';
 export const DEFAULT_THEME_ID = 1;
 
 export default Ember.Service.extend({
+  redux: Ember.inject.service(),
   activeThemeName: Ember.computed.alias('activeTheme.shortName'),
-  activeTheme: Ember.computed('availableThemes.[]', function() {
+  activeTheme: Ember.computed('availableThemes', function() {
     let availableThemes = this.get('availableThemes');
-    return availableThemes.findBy('active', true);
+    return _.filter(availableThemes, (t) => t.active === true)[0];
+  }),
+  availableThemes: Ember.computed(function() {
+    let redux = this.get('redux');
+    let state = redux.getState();
+    return state.theme.available;
   }),
   processThemeBundle: function(incoming) {
+    let redux = this.get('redux');
     let themeName = incoming || DEFAULT_THEME_NAME;
     let availableThemes = this.get('availableThemes');
-    let firstTheme = availableThemes.findBy('name', themeName) || availableThemes.objectAt(0);
+    let firstTheme = _.filter(availableThemes, (t) => {
+        return t.name === themeName;
+    })[0] || availableThemes[DEFAULT_THEME_ID];
     let nameOnly = themeName.replace('theme-', '');
     if (firstTheme) {
-      firstTheme.setProperties({
-        active: true,
+      redux.dispatch({
+        type: 'ACTIVATE_THEME',
+        theme: firstTheme,
         shortName: nameOnly
       });
     }
@@ -31,18 +42,21 @@ export default Ember.Service.extend({
     }
   },
   activateNewTheme: function(themeId, themeName, shortName) {
-    this.flipTheActiveTheme(themeId, themeName);
+    this.flipTheActiveTheme(themeId, themeName, shortName);
     this.fetchTheme(shortName);
     this.persistLocally(shortName);
     this.notifyPropertyChange('availableThemes');
   },
-  flipTheActiveTheme: function(id, name) {
+  flipTheActiveTheme: function(id, name, shortName) {
+    let redux = this.get('redux');
     let activeTheme = this.get('activeTheme');
-    if(activeTheme.get('id') !== id) {
-      let availableThemes = this.get('availableThemes');
-      let newTheme = Ember.Object.create({id: id, name: name, active: true});
-      availableThemes.push(newTheme);
-      activeTheme.set('active', false);
+    if(activeTheme.id !== id) {
+      redux.dispatch({
+        type: 'ACTIVATE_NEW_THEME',
+        id: id,
+        name: name,
+        shortName: shortName
+      });
     }
   },
   fetchTheme: function(themeName) {
@@ -55,5 +69,19 @@ export default Ember.Service.extend({
   },
   persistLocally: function(shortName) {
     Ember.$.cookie('themeName', `theme-${shortName}`);
+  },
+  init() {
+    this._super(...arguments);
+    let redux = this.get('redux');
+    this.unsubscribe = redux.subscribe(() => {
+      this.notifyPropertyChange('availableThemes');
+    });
+  },
+  willDestroy() {
+    this._super(...arguments);
+    if (this.unsubscribe) {
+      this.unsubscribe();
+      this.unsubscribe = null;
+    }
   }
 });

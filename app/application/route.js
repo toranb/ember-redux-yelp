@@ -5,7 +5,6 @@ var ApplicationRoute = Ember.Route.extend({
   theme: Ember.inject.service(),
   beforeModel() {
     let redux = this.get('redux');
-    let theme = this.get('theme');
 
     let user = Ember.$('[preload-user]').data('configuration');
     redux.dispatch({
@@ -14,13 +13,10 @@ var ApplicationRoute = Ember.Route.extend({
     });
 
     let configuredThemes = Ember.$('[preload-themes]').data('configuration');
-    let availableThemes = configuredThemes.map((theme) => {
-      return Ember.Object.create({
-        id: theme.id,
-        name: theme.name
-      });
+    redux.dispatch({
+      type: 'AVAILABLE_THEMES',
+      themes: configuredThemes
     });
-    theme.set('availableThemes', availableThemes);
   },
   model() {
     let theme = this.get('theme');

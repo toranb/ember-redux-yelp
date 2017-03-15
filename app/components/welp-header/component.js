@@ -2,6 +2,12 @@ import Ember from 'ember';
 import hbs from 'htmlbars-inline-precompile';
 
 var WelpHeaderComponent = Ember.Component.extend({
+    injectMap: function() {
+        this._super(...arguments);
+        Ember.run.next(() => {
+          Ember.$('button').focus();
+        });
+    }.on('didRender'),
     layout: hbs`
       <div class="row">
         <div class="site-logo">

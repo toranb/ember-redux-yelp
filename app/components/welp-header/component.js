@@ -2,7 +2,7 @@ import Ember from 'ember';
 import hbs from 'htmlbars-inline-precompile';
 
 var WelpHeaderComponent = Ember.Component.extend({
-    injectMap: function() {
+    doFocus: function() {
         this._super(...arguments);
         Ember.run.next(() => {
           Ember.$('button').focus();

@@ -2,6 +2,12 @@ import Ember from 'ember';
 import hbs from 'htmlbars-inline-precompile';
 
 var WelpLayoutComponent = Ember.Component.extend({
+    doFocus: function() {
+        this._super(...arguments);
+        Ember.run.next(() => {
+          Ember.$('input#username').focus();
+        });
+    }.on('didRender'),
     layout: hbs`
       <div class="container">
         <div class="row justify-content-md-center">

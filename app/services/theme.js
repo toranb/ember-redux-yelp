@@ -43,23 +43,20 @@ export default Ember.Service.extend({
   },
   activateNewTheme: function(themeId, themeName, shortName) {
     this.flipTheActiveTheme(themeId, themeName, shortName);
-    this.fetchTheme(shortName);
+    this.fetchTheNewTheme(shortName);
     this.persistLocally(shortName);
-    this.notifyPropertyChange('availableThemes');
   },
   flipTheActiveTheme: function(id, name, shortName) {
     let redux = this.get('redux');
     let activeTheme = this.get('activeTheme');
-    if(activeTheme.id !== id) {
-      redux.dispatch({
-        type: 'ACTIVATE_NEW_THEME',
-        id: id,
-        name: name,
-        shortName: shortName
-      });
-    }
+    redux.dispatch({
+      type: 'ACTIVATE_NEW_THEME',
+      id: id,
+      name: name,
+      shortName: shortName
+    });
   },
-  fetchTheme: function(themeName) {
+  fetchTheNewTheme: function(themeName) {
     let themeUrl = `/themes/${themeName}.css`;
     let themeLink = document.createElement('link');
     themeLink.href = themeUrl;

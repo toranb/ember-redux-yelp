@@ -32,20 +32,17 @@ export default Ember.Service.extend({
   },
   activateNewTheme: function(themeId, themeName, shortName) {
     this.flipTheActiveTheme(themeId, themeName);
-    this.fetchTheme(shortName);
+    this.fetchTheNewTheme(shortName);
     this.persistLocally(shortName);
-    this.notifyPropertyChange('availableThemes');
   },
   flipTheActiveTheme: function(id, name) {
     let activeTheme = this.get('activeTheme');
-    if(activeTheme.get('id') !== id) {
-      let availableThemes = this.get('availableThemes');
-      let newTheme = Ember.Object.create({id: id, name: name, active: true});
-      availableThemes.push(newTheme);
-      activeTheme.set('active', false);
-    }
+    let availableThemes = this.get('availableThemes');
+    let newTheme = Ember.Object.create({id: id, name: name, active: true});
+    availableThemes.pushObject(newTheme);
+    activeTheme.set('active', false);
   },
-  fetchTheme: function(themeName) {
+  fetchTheNewTheme: function(themeName) {
     let themeUrl = `/themes/${themeName}.css`;
     let themeLink = document.createElement('link');
     themeLink.href = themeUrl;

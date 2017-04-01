@@ -32,41 +32,6 @@ export default Ember.Service.extend({
       });
     }
   },
-  updateTheme: function(response) {
-    let newThemeId = response.themeId;
-    let newThemeName = response.themeName;
-    let newThemeShortName = newThemeName.replace('theme-', '');
-    let activeThemeName = this.get('activeThemeName');
-    if (activeThemeName !== newThemeShortName) {
-      this.activateNewTheme(newThemeId, newThemeName, newThemeShortName);
-    }
-  },
-  activateNewTheme: function(themeId, themeName, shortName) {
-    this.flipTheActiveTheme(themeId, themeName, shortName);
-    this.fetchTheNewTheme(shortName);
-    this.persistLocally(shortName);
-  },
-  flipTheActiveTheme: function(id, name, shortName) {
-    let redux = this.get('redux');
-    let activeTheme = this.get('activeTheme');
-    redux.dispatch({
-      type: 'ACTIVATE_NEW_THEME',
-      id: id,
-      name: name,
-      shortName: shortName
-    });
-  },
-  fetchTheNewTheme: function(themeName) {
-    let themeUrl = `/themes/${themeName}.css`;
-    let themeLink = document.createElement('link');
-    themeLink.href = themeUrl;
-    themeLink.rel = 'stylesheet';
-    themeLink.type = 'text/css';
-    document.body.appendChild(themeLink);
-  },
-  persistLocally: function(shortName) {
-    Ember.$.cookie('themeName', `theme-${shortName}`);
-  },
   init() {
     this._super(...arguments);
     let redux = this.get('redux');

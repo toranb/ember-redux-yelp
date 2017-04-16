@@ -1,7 +1,0 @@
-{
-  "name": "welp",
-  "dependencies": {
-    "ember": "~2.12.1",
-    "ember-cli-shims": "0.1.1"
-  }
-}

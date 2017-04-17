@@ -1,3 +1,5 @@
+/*global server:true*/
+
 import { test } from 'qunit';
 import moduleForAcceptance from 'welp/tests/helpers/module-for-acceptance';
 

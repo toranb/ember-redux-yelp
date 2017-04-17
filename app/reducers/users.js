@@ -7,14 +7,16 @@ const initialState = {
 
 export default ((state, action) => {
   switch(action.type) {
-    case 'ASSIGN_USER':
+    case 'ASSIGN_USER': {
       const user = {[action.user.id]: action.user};
       const merge = _.extend({}, state.all, user);
       return Object.assign({}, state, {
         all: merge,
         authenticatedId: action.user.id
       });
-    default:
+    }
+    default: {
       return state || initialState;
+    }
   }
 });

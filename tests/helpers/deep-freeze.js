@@ -1,7 +1,6 @@
 //copy from substack so we can use it with ember :)
 //https://github.com/substack/deep-freeze/blob/master/index.js
 
-/* jshint ignore:start */
 export default function deepFreeze(o) {
   Object.freeze(o);
 
@@ -15,5 +14,4 @@ export default function deepFreeze(o) {
   });
 
   return o;
-};
-/* jshint ignore:end */
+}

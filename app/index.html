@@ -18,6 +18,16 @@
     {{content-for "body"}}
 
     <script src="{{rootURL}}assets/vendor.js"></script>
+    <script>
+      var process = {
+        env: {
+          NODE_ENV: 'development'
+        }
+      };
+      var global = {
+        setImmediate: window.setTimeout
+      }
+    </script>
     <script src="{{rootURL}}assets/welp.js"></script>
 
     <script type="text/preload" charset="utf-8" preload-user="user" data-configuration='{"id": 39, "name":"Toran"}'></script>

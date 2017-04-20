@@ -42,7 +42,7 @@
     "ember-load-initializers": "^1.0.0",
     "ember-lodash-es-shim": "0.0.3",
     "ember-redux": "^2.2.0",
-    "ember-redux-offline-shim": "0.0.5",
+    "ember-redux-offline-shim": "0.0.6",
     "ember-redux-persist-shim": "0.0.6",
     "ember-redux-shim": "^1.1.1",
     "ember-redux-thunk-shim": "^1.1.2",

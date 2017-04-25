@@ -23,7 +23,7 @@ var WelpDetailComponent = Ember.Component.extend({
       {{#if review.reviewed}}
         <p class="detail-comment">
           <textarea value={{buffer}} rows="4" cols="70" oninput={{action (mut buffer) value="target.value"}}></textarea>
-          <button class="btn-success" onclick={{action comment result.id buffer}}>Post Review</button>
+          <button class="btn-success" onclick={{action comment result.id review.id buffer}}>Post Review</button>
           <button class="btn-danger" onclick={{action (mut buffer) review.comment}}>Reset</button>
           <span class="note">*You can always edit your review later</span>
         </p>

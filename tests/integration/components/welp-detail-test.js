@@ -1,3 +1,4 @@
+import { skip } from 'qunit';
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 
@@ -98,7 +99,7 @@ test('when result has no rating the textarea/buttons are not visible for comment
   assert.equal(this.$().find('.detail-comment button.btn-success').length, 0);
 });
 
-test('clicking btn-success will trigger wired closure action', function(assert) {
+skip('clicking btn-success will trigger wired closure action', function(assert) {
   assert.expect(2);
   this.set('rate', () => {});
   this.set('comment', (id, comment) => {

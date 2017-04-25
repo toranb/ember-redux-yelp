@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import Ember from 'ember';
 import reselect from 'reselect';
 
 const { createSelector } = reselect;
@@ -23,10 +24,82 @@ export default ((state, action) => {
         selectedId: action.response.id
       });
     }
-    case 'RATE_ITEM':
     case 'COMMENT_ITEM': {
-      const rateResult = {[action.response.id]: action.response};
-      const rateMerge = _.extend({}, state.all, rateResult);
+      let reviewId = action.payload.reviewId;
+      let newComment = action.payload.comment;
+      let result = state.all[action.payload.id];
+      let reviews = result.reviews.map(review => {
+        return _.defaults({
+          comment: review.id === reviewId ? newComment : review.comment
+        }, review);
+      });
+      const rateResult = Object.assign({}, result, {reviews: reviews});
+      const rateMerge = _.extend({}, state.all, {[rateResult.id]: rateResult});
+      return Object.assign({}, state, {
+        all: rateMerge
+      });
+    }
+    case 'COMMENT_ITEM_COMMIT': {
+      let userId = 39;
+      let reviewz = action.payload.result.reviews;
+      let rateResult = _.map([state.all[action.payload.result.id]], result => {
+        var reviews = result.reviews.map(review => {
+          return _.defaults({
+            comment: review.userId === userId ? reviewz.filter((r) => { return r.userId === userId; })[0].comment : review.comment
+          }, review);
+        });
+        return _.defaults({
+          reviews: reviews
+        }, result);
+      })[0];
+      const rateMerge = _.extend({}, state.all, {[action.payload.result.id]: rateResult});
+      return Object.assign({}, state, {
+        all: rateMerge
+      });
+    }
+    case 'RATE_ITEM': {
+      let userId = 39;
+      let reviewId = action.payload.id;
+      let newRating = action.payload.rating;
+      let result = state.all[reviewId];
+      let reviewed = result.reviews.filter((review) => {
+        return review.userId === userId ? review : undefined;
+      })[0];
+
+      var reviews;
+      if (reviewed) {
+        reviews = result.reviews.map(review => {
+          return _.defaults({
+            rating: review.id === reviewed.id ? newRating : review.rating
+          }, review);
+        });
+      }else{
+        let uuid = Ember.uuid();
+        reviews = result.reviews.concat([{id: uuid, rating: newRating, userId: userId, comment: ''}]);
+      }
+
+      const rateResult = Object.assign({}, result, {reviews: reviews});
+      const rateMerge = _.extend({}, state.all, {[reviewId]: rateResult});
+      return Object.assign({}, state, {
+        all: rateMerge
+      });
+    }
+    case 'RATE_ITEM_COMMIT': {
+      let userId = 39;
+      let reviewId = action.payload.result.id;
+      let reviewz = action.payload.result.reviews;
+      let rateResult = _.map([state.all[reviewId]], result => {
+        var reviews = result.reviews.map(review => {
+          return _.defaults({
+            id: review.userId === userId ? reviewz.filter((r) => { return r.userId === userId; })[0].id : review.id
+          }, review);
+        });
+        return _.defaults({
+          reviews: reviews
+        }, result);
+      })[0];
+
+      const rateMerge = _.extend({}, state.all, {[reviewId]: rateResult});
       return Object.assign({}, state, {
         all: rateMerge
       });

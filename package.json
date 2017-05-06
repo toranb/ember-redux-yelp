@@ -44,7 +44,7 @@
     "ember-lodash-shim": "1.1.1",
     "ember-maybe-import-regenerator": "0.1.6",
     "ember-redux": "^2.4.0",
-    "ember-redux-saga-shim": "1.0.0",
+    "ember-redux-saga-shim": "1.1.0",
     "ember-redux-shim": "^1.1.1",
     "ember-reselect-shim": "0.1.0",
     "ember-resolver": "^2.0.3",
@@ -53,7 +53,7 @@
     "loader.js": "^4.0.1",
     "lodash-es": "4.17.4",
     "redux": "3.6.0",
-    "redux-saga": "0.15.0",
+    "redux-saga": "0.15.3",
     "reselect": "2.5.4"
   }
 }

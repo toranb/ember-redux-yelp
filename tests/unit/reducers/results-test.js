@@ -139,7 +139,7 @@ test('rate should parse fetch response and merge payload with new rating', funct
 
   deepFreeze(previous);
 
-  const result = reducer(previous, {type: 'RATE_ITEM', response: {id: 2, name: 'two', reviews: [{id: 9, rating: 3, comment: 'decent'}]}});
+  const result = reducer(previous, {type: 'RATE_ITEM', payload: {result: {id: 2, name: 'two', reviews: [{id: 9, rating: 3, comment: 'decent'}]}}});
 
   assert.deepEqual(result, {
     all: {
@@ -185,7 +185,7 @@ test('comment should parse fetch response and merge payload with new comment', f
 
   deepFreeze(previous);
 
-  const result = reducer(previous, {type: 'COMMENT_ITEM', response: {id: 2, name: 'two', reviews: [{id: 9, rating: 3, comment: 'decent'}]}});
+  const result = reducer(previous, {type: 'COMMENT_ITEM', payload: {result: {id: 2, name: 'two', reviews: [{id: 9, rating: 3, comment: 'decent'}]}}});
 
   assert.deepEqual(result, {
     all: {

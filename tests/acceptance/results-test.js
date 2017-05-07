@@ -53,7 +53,6 @@ test('detail route will show each rating and comment', function(assert) {
 });
 
 test('detail route allows user to rate result not yet rated by the user', function(assert) {
-  assert.expect(6);
   visit('/detail/5');
   andThen(function() {
     assert.equal(currentURL(), '/detail/5');
@@ -73,7 +72,6 @@ test('detail route allows user to rate result not yet rated by the user', functi
 });
 
 test('detail route allows user to update rating for result', function(assert) {
-  assert.expect(9);
   visit('/detail/2');
   andThen(function() {
     assert.equal(currentURL(), '/detail/2');
@@ -96,7 +94,6 @@ test('detail route allows user to update rating for result', function(assert) {
 });
 
 test('detail route allows user to comment on result not yet rated but only after rating it', function(assert) {
-  assert.expect(9);
   visit('/detail/5');
   andThen(function() {
     assert.equal(currentURL(), '/detail/5');
@@ -123,7 +120,6 @@ test('detail route allows user to comment on result not yet rated but only after
 });
 
 test('detail route allows user to comment after rating it', function(assert) {
-  assert.expect(12);
   visit('/detail/2');
   andThen(function() {
     assert.equal(currentURL(), '/detail/2');

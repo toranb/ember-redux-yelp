@@ -1,20 +1,19 @@
-import Rx from 'rxjs/Rx';
-import fetch from 'fetch';
+import 'rxjs/Rx';
 
-const dispatchRate = payload => ({ type: 'RATE_ITEM', payload });
+const rate = (action$, _, { ajax }) => {
+  return action$.ofType('RATE_ITEM_EPIC')
+    .mergeMap(action =>
+      ajax({method: 'POST', url: `/api/results/${action.payload.id}`, body: JSON.stringify({rating: action.payload.rating})})
+      .map(payload => ({ type: 'RATE_ITEM', payload }))
+    );
+}
 
-const rate = action$ =>
-  action$.ofType('RATE_ITEM_EPIC')
-    .flatMap(action => Rx.Observable.fromPromise(fetch(`/api/results/${action.payload.id}`, {method: 'POST', body: JSON.stringify({rating: action.payload.rating})})))
-    .flatMap(f => Rx.Observable.fromPromise(f.json()))
-    .map(response => dispatchRate(response))
-
-const dispatchComment = payload => ({ type: 'COMMENT_ITEM', payload });
-
-const comment = action$ =>
-  action$.ofType('COMMENT_ITEM_EPIC')
-    .flatMap(action => Rx.Observable.fromPromise(fetch(`/api/results/${action.payload.id}`, {method: 'PUT', body: JSON.stringify({comment: action.payload.comment})})))
-    .flatMap(f => Rx.Observable.fromPromise(f.json()))
-    .map(response => dispatchComment(response))
+const comment = (action$, _, { ajax }) => {
+  return action$.ofType('COMMENT_ITEM_EPIC')
+    .mergeMap(action =>
+      ajax({method: 'PUT', url: `/api/results/${action.payload.id}`, body: JSON.stringify({comment: action.payload.comment})})
+      .map(payload => ({ type: 'COMMENT_ITEM', payload }))
+    );
+}
 
 export { rate, comment };

@@ -1,4 +1,5 @@
-import 'rxjs/Rx';
+import 'rxjs/add/operator/mergeMap';
+import 'rxjs/add/operator/map';
 
 const rate = (action$, _, { ajax }) => {
   return action$.ofType('RATE_ITEM_EPIC')

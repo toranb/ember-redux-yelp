@@ -9,6 +9,7 @@ test('should return the initial state', function(assert) {
 
   assert.deepEqual(result, {
     all: undefined,
+    reviews: undefined,
     selectedId: undefined
   });
 });
@@ -33,6 +34,29 @@ test('transform should parse fetch response and return new dict data structure',
       '3': {
         'id': 3,
         'name': 'three'
+      }
+    },
+    reviews: {}
+  });
+});
+
+test('transform should return normalized data structures when reviews exist', function(assert) {
+  const one = {id: 1, name: 'one', reviews: [{id: 9, comment: 'doh'}]};
+
+  const result = reducer({}, {type: 'TRANSFORM_LIST', response: [one]});
+
+  assert.deepEqual(result, {
+    all: {
+      '1': {
+        'id': 1,
+        'name': 'one',
+        'reviews': [9]
+      }
+    },
+    reviews: {
+      '9': {
+        'id': 9,
+        'comment': 'doh'
       }
     }
   });
@@ -74,7 +98,8 @@ test('transform should truly merge without side effecting the previous state', f
         'id': 3,
         'name': 'three'
       }
-    }
+    },
+    reviews: {}
   });
 });
 
@@ -83,36 +108,56 @@ test('detail should parse fetch response set selectedId and merge payload', func
     all: {
       '1': {
         'id': 1,
-        'name': 'one'
+        'name': 'one',
+        'reviews': []
       },
       '2': {
         'id': 2,
-        'name': '2'
+        'name': '2',
+        'reviews': [9]
       },
       '3': {
         'id': 3,
         'name': 'three'
+      }
+    },
+    reviews: {
+      '9': {
+        'id': 9,
+        'comment': 'doh'
       }
     }
   };
 
   deepFreeze(previous);
 
-  const result = reducer(previous, {type: 'TRANSFORM_DETAIL', response: {id: 2, name: 'two'}});
+  const result = reducer(previous, {type: 'TRANSFORM_DETAIL', response: {id: 2, name: 'two', reviews: [{id: 9, comment: 'doh'}, {id: 12, comment: 'x'}]}});
 
   assert.deepEqual(result, {
     all: {
       '1': {
         'id': 1,
-        'name': 'one'
+        'name': 'one',
+        'reviews': []
       },
       '2': {
         'id': 2,
-        'name': 'two'
+        'name': 'two',
+        'reviews': [9, 12]
       },
       '3': {
         'id': 3,
         'name': 'three'
+      }
+    },
+    reviews: {
+      '9': {
+        'id': 9,
+        'comment': 'doh'
+      },
+      '12': {
+        'id': 12,
+        'comment': 'x'
       }
     },
     selectedId: 2
@@ -150,13 +195,18 @@ test('rate should parse fetch response and merge payload with new rating', funct
       '2': {
         'id': 2,
         'name': 'two',
-        'reviews': [
-          {id: 9, rating: 3, comment: 'decent'}
-        ]
+        'reviews': [9]
       },
       '3': {
         'id': 3,
         'name': 'three'
+      }
+    },
+    reviews: {
+      '9': {
+        'id': 9,
+        'rating': 3,
+        'comment': 'decent'
       }
     }
   });
@@ -172,13 +222,17 @@ test('comment should parse fetch response and merge payload with new comment', f
       '2': {
         'id': 2,
         'name': '2',
-        'reviews': [
-          {id: 9, rating: 3}
-        ]
+        'reviews': [9]
       },
       '3': {
         'id': 3,
         'name': 'three'
+      }
+    },
+    reviews: {
+      '9': {
+        'id': 9,
+        'rating': 3
       }
     }
   };
@@ -196,13 +250,18 @@ test('comment should parse fetch response and merge payload with new comment', f
       '2': {
         'id': 2,
         'name': 'two',
-        'reviews': [
-          {id: 9, rating: 3, comment: 'decent'}
-        ]
+        'reviews': [9]
       },
       '3': {
         'id': 3,
         'name': 'three'
+      }
+    },
+    reviews: {
+      '9': {
+        'id': 9,
+        'rating': 3,
+        'comment': 'decent'
       }
     }
   });

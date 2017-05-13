@@ -15,37 +15,39 @@ test('getSelectedResult should transform userId on nested review to boolean valu
         1: {
           id: 1,
           name: 'one',
-          reviews: [
-            {
-              id: 7,
-              userId: 33
-            },
-            {
-              id: 8,
-              userId: 31
-            }]
+          reviews: [7, 8]
         },
         2: {
           id: 2,
           name: 'two',
-          reviews: [
-            {
-              id: 6,
-              rating: 2,
-              comment: 'keep',
-              userId: 32
-            },
-            {
-              id: 5,
-              rating: 3,
-              comment: 'xyz',
-              userId: 39
-            }]
+          reviews: [5, 6]
         },
         3: {
           id: 3,
           name: 'three',
           reviews: []
+        }
+      },
+      reviews: {
+        5: {
+          id: 5,
+          rating: 3,
+          comment: 'xyz',
+          userId: 39
+        },
+        6: {
+          id: 6,
+          rating: 2,
+          comment: 'keep',
+          userId: 32
+        },
+        7: {
+          id: 7,
+          userId: 33
+        },
+        8: {
+          id: 8,
+          userId: 31
         }
       }
     }
@@ -60,18 +62,18 @@ test('getSelectedResult should transform userId on nested review to boolean valu
     name: 'two',
     reviews: [
       {
-        id: 6,
-        rating: 2,
-        comment: 'keep',
-        reviewed: false,
-        userId: 32
-      },
-      {
         id: 5,
         rating: 3,
         comment: 'xyz',
         reviewed: true,
         userId: 39
+      },
+      {
+        id: 6,
+        rating: 2,
+        comment: 'keep',
+        reviewed: false,
+        userId: 32
       }]
   };
 

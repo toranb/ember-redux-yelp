@@ -1,8 +1,8 @@
 import Ember from 'ember';
-import fetch from 'fetch';
 import hbs from 'htmlbars-inline-precompile';
 import connect from 'ember-redux/components/connect';
 import { getSelectedResult } from '../../reducers/results';
+import { rate, comment } from '../../actions/results';
 
 var stateToComputed = (state) => {
   return {
@@ -10,11 +10,9 @@ var stateToComputed = (state) => {
   };
 };
 
-var dispatchToActions = (dispatch) => {
-  return {
-    rate: (id, rating) => fetch(`/api/results/${id}`, {method: 'POST', body: JSON.stringify({rating: rating})}).then(fetched => fetched.json()).then((response) => dispatch({type: 'RATE_ITEM', response: response.result})),
-    comment: (id, comment) => fetch(`/api/results/${id}`, {method: 'PUT', body: JSON.stringify({comment: comment})}).then(fetched => fetched.json()).then((response) => dispatch({type: 'COMMENT_ITEM', response: response.result}))
-  };
+var dispatchToActions = {
+  rate,
+  comment
 };
 
 var WelpResultComponent = Ember.Component.extend({

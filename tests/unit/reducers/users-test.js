@@ -1,6 +1,7 @@
 import { test, module } from 'qunit';
 import reducer from 'welp/reducers/users';
 import deepFreeze from 'welp/tests/helpers/deep-freeze';
+import Immutable from 'seamless-immutable';
 
 module('Unit | Reducers | users');
 
@@ -16,7 +17,7 @@ test('should return the initial state', function(assert) {
 test('transform should parse user and return new dict data structure', function(assert) {
   const user = {id: 39, name: 'Toran'};
 
-  const result = reducer({}, {type: 'ASSIGN_USER', user: user});
+  const result = reducer(Immutable({}), {type: 'ASSIGN_USER', user: user});
 
   assert.deepEqual(result, {
     all: {
@@ -30,7 +31,7 @@ test('transform should parse user and return new dict data structure', function(
 });
 
 test('transform should merge new user information w/out side effecting previous', function(assert) {
-  let previous = {
+  let previous = Immutable({
     all: {
       '39': {
         'id': 39,
@@ -38,7 +39,7 @@ test('transform should merge new user information w/out side effecting previous'
       }
     },
     authenticatedId: 39
-  };
+  });
 
   deepFreeze(previous);
 

@@ -1,6 +1,7 @@
 import { test, module } from 'qunit';
 import reducer from 'welp/reducers/results';
 import deepFreeze from 'welp/tests/helpers/deep-freeze';
+import Immutable from 'seamless-immutable';
 
 module('Unit | Reducers | results');
 
@@ -19,7 +20,7 @@ test('transform should parse fetch response and return new dict data structure',
   const two = {id: 2, name: 'two'};
   const three = {id: 3, name: 'three'};
 
-  const result = reducer({}, {type: 'TRANSFORM_LIST', response: [one, two, three]});
+  const result = reducer(Immutable({}), {type: 'TRANSFORM_LIST', response: [one, two, three]});
 
   assert.deepEqual(result, {
     all: {
@@ -43,7 +44,7 @@ test('transform should parse fetch response and return new dict data structure',
 test('transform should return normalized data structures when reviews exist', function(assert) {
   const one = {id: 1, name: 'one', reviews: [{id: 9, comment: 'doh'}]};
 
-  const result = reducer({}, {type: 'TRANSFORM_LIST', response: [one]});
+  const result = reducer(Immutable({}), {type: 'TRANSFORM_LIST', response: [one]});
 
   assert.deepEqual(result, {
     all: {
@@ -63,7 +64,7 @@ test('transform should return normalized data structures when reviews exist', fu
 });
 
 test('transform should truly merge without side effecting the previous state', function(assert) {
-  let previous = {
+  let previous = Immutable({
     all: {
       '1': {
         'id': 1,
@@ -78,7 +79,7 @@ test('transform should truly merge without side effecting the previous state', f
         'name': 'three'
       }
     }
-  };
+  });
 
   deepFreeze(previous);
 
@@ -104,7 +105,7 @@ test('transform should truly merge without side effecting the previous state', f
 });
 
 test('detail should parse fetch response set selectedId and merge payload', function(assert) {
-  let previous = {
+  let previous = Immutable({
     all: {
       '1': {
         'id': 1,
@@ -127,7 +128,7 @@ test('detail should parse fetch response set selectedId and merge payload', func
         'comment': 'doh'
       }
     }
-  };
+  });
 
   deepFreeze(previous);
 
@@ -165,7 +166,7 @@ test('detail should parse fetch response set selectedId and merge payload', func
 });
 
 test('rate should parse fetch response and merge payload with new rating', function(assert) {
-  let previous = {
+  let previous = Immutable({
     all: {
       '1': {
         'id': 1,
@@ -180,7 +181,7 @@ test('rate should parse fetch response and merge payload with new rating', funct
         'name': 'three'
       }
     }
-  };
+  });
 
   deepFreeze(previous);
 
@@ -213,7 +214,7 @@ test('rate should parse fetch response and merge payload with new rating', funct
 });
 
 test('comment should parse fetch response and merge payload with new comment', function(assert) {
-  let previous = {
+  let previous = Immutable({
     all: {
       '1': {
         'id': 1,
@@ -235,7 +236,7 @@ test('comment should parse fetch response and merge payload with new comment', f
         'rating': 3
       }
     }
-  };
+  });
 
   deepFreeze(previous);
 

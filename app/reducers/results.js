@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import reselect from 'reselect';
 import { normalize, denormalize, schema } from 'normalizr';
+import Immutable from 'seamless-immutable';
 
 const review = new schema.Entity('reviews');
 const resultsSchema = new schema.Entity('results', {
@@ -9,11 +10,11 @@ const resultsSchema = new schema.Entity('results', {
 
 const { createSelector } = reselect;
 
-const initialState = {
+const initialState = Immutable({
   all: undefined,
   reviews: undefined,
   selectedId: undefined
-};
+});
 
 export default ((state, action) => {
   switch(action.type) {
@@ -24,7 +25,7 @@ export default ((state, action) => {
       const reviewz = _.keyBy(reviews, review => review.id);
       const mergedResults = _.extend({}, state.all, resultz);
       const mergedReviews = _.extend({}, state.reviews, reviewz);
-      return Object.assign({}, state, {all: mergedResults, reviews: mergedReviews});
+      return state.merge({all: mergedResults, reviews: mergedReviews});
     }
     case 'TRANSFORM_DETAIL': {
       const result = {[action.response.id]: action.response};
@@ -32,11 +33,7 @@ export default ((state, action) => {
       const { results, reviews } = normalized.entities;
       const merge = _.extend({}, state.all, results);
       const mergeReviews = _.extend({}, state.reviews, _.keyBy(reviews, review => review.id));
-      return Object.assign({}, state, {
-        all: merge,
-        reviews: mergeReviews,
-        selectedId: action.response.id
-      });
+      return state.merge({all: merge, reviews: mergeReviews, selectedId: action.response.id});
     }
     case 'RATE_ITEM':
     case 'COMMENT_ITEM': {
@@ -45,10 +42,7 @@ export default ((state, action) => {
       const { results, reviews } = normalized.entities;
       const rateMerge = _.extend({}, state.all, results);
       const rateReviews = _.extend({}, state.reviews, _.keyBy(reviews, review => review.id));
-      return Object.assign({}, state, {
-        all: rateMerge,
-        reviews: rateReviews
-      });
+      return state.merge({all: rateMerge, reviews: rateReviews});
     }
     default: {
       return state || initialState;

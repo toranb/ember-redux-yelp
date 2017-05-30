@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "allowJs": true,
+    "target": "es2015",
+    "module": "es2015",
+    "moduleResolution": "node",
+    "strictNullChecks": true,
+    "suppressImplicitAnyIndexErrors": true,
+    "allowSyntheticDefaultImports": true,
+    "noImplicitAny": true,
+    "noEmitOnError": false,
+    "noEmit": true,
+    "baseUrl": ".",
+    "paths": {
+      "welp/tests/*": ["tests/*"],
+      "welp/*": ["app/*"]
+    }
+  },
+  "include": [
+    "app/**/*",
+    "tests/**/*"
+  ]
+}

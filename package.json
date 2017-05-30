@@ -15,6 +15,9 @@
     "test": "ember test"
   },
   "devDependencies": {
+    "@types/ember": "^2.7.34",
+    "@types/lodash": "^4.14.64",
+    "@types/seamless-immutable": "^6.1.2",
     "broccoli-asset-rev": "^2.4.5",
     "ember-cli": "2.13.1",
     "ember-cli-app-version": "^3.0.0",
@@ -30,6 +33,7 @@
     "ember-cli-sass": "^6.1.2",
     "ember-cli-shims": "^1.1.0",
     "ember-cli-sri": "^2.1.0",
+    "ember-cli-typescript": "^0.4.0",
     "ember-cli-uglify": "^1.2.0",
     "ember-component-css": "^0.3.3",
     "ember-export-application-global": "^2.0.0",
@@ -49,7 +53,8 @@
     "normalizr": "^3.2.2",
     "redux": "^3.6.0",
     "redux-thunk": "^2.2.0",
-    "reselect": "^2.5.4"
+    "reselect": "^2.5.4",
+    "typescript": "^2.1"
   },
   "engines": {
     "node": ">= 4"

@@ -1,5 +1,5 @@
 import fetch from 'fetch';
-import route from 'ember-redux/route';
+import { route } from 'ember-redux';
 
 var model = (dispatch) => {
   return fetch('/api/results')

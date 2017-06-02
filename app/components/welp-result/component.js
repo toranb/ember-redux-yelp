@@ -1,6 +1,6 @@
 import Ember from 'ember';
 import hbs from 'htmlbars-inline-precompile';
-import connect from 'ember-redux/components/connect';
+import { connect } from 'ember-redux';
 import { getSelectedResult } from '../../reducers/results';
 import { rate, comment } from '../../actions/results';
 

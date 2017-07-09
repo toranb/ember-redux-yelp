@@ -36,7 +36,7 @@
     "ember-fetch": "^1.5.0",
     "ember-load-initializers": "^1.0.0",
     "ember-lodash-shim": "^2.0.2",
-    "ember-redux": "^2.8.0",
+    "ember-redux": "^2.10.0",
     "ember-redux-shim": "^2.0.0",
     "ember-redux-thunk-shim": "^2.0.0",
     "ember-reselect-shim": "^2.0.0",

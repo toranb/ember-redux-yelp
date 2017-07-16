@@ -1,12 +1,6 @@
 import _ from 'lodash';
-import * as SI from 'seamless-immutable';
-
-const Immutable = SI['default'] ? SI['default'] : SI;
-
-const initialState = Immutable({
-  all: undefined,
-  authenticatedId: undefined
-});
+import Immutable from 'seamless-immutable';
+import { ImmutableObject } from 'seamless-immutable';
 
 interface User {
   id: number;
@@ -23,7 +17,14 @@ interface UserState {
   authenticatedId: number;
 }
 
-export default ((state: SI.ImmutableObject<UserState>, action: Action): SI.ImmutableObject<UserState> => {
+const initialState = Immutable<UserState>({
+  all: undefined,
+  authenticatedId: undefined
+});
+
+type ImmutableState<T> = ImmutableObject<T> & T;
+
+export default ((state: ImmutableState<UserState>, action: Action): ImmutableState<UserState> => {
   switch(action.type) {
     case 'ASSIGN_USER': {
       const user = {[action.user.id]: action.user};

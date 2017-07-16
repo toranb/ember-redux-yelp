@@ -12,12 +12,15 @@
     "noEmit": true,
     "baseUrl": ".",
     "paths": {
-      "welp/tests/*": ["tests/*"],
-      "welp/*": ["app/*"]
+      "welp/*": ["app/*"],
+      "ember-redux": ["node_modules/ember-redux/index.d.ts"],
+      "redux": ["node_modules/redux/index.d.ts"],
+      "fetch": ["node_modules/ember-fetch/index.d.ts"],
+      "reselect": ["node_modules/reselect/lib/index.d.ts"],
+      "seamless-immutable": ["node_modules/seamless-immutable-tsdefs/index.d.ts"]
     }
   },
   "include": [
-    "app/**/*",
-    "tests/**/*"
+    "**/*.ts"
   ]
 }

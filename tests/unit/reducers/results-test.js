@@ -1,6 +1,6 @@
 import { test, module } from 'qunit';
 import reducer from 'welp/reducers/results';
-import deepFreeze from 'welp/tests/helpers/deep-freeze';
+import { deepFreeze } from 'ember-redux-freeze';
 
 module('Unit | Reducers | results');
 

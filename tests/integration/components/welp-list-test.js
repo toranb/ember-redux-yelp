@@ -13,11 +13,12 @@ test('should transform results dict into unordered list', function(assert) {
       id: 1, name: 'one', img: '/images/one.jpg', tags: 'Mexican', price: '$', address: '123 Main St.', reviews: []
     },
     2: {
-      id: 2, name: 'two', img: '/images/two.jpg', tags: 'Bars', price: '$$', address: 'moar ave'
+      id: 2, name: 'two', img: '/images/two.jpg', tags: 'Bars', price: '$$', address: 'moar ave', reviews: []
     }
   });
+  this.set('reviews', {});
 
-  this.render(hbs`{{welp-list results=results}}`);
+  this.render(hbs`{{welp-list results=results reviews=reviews}}`);
 
   assert.equal(this.$().find('ul.search-results-list .result-heading').length, 2);
   assert.equal(this.$().find('ul.search-results-list .result-heading:eq(0)').text().trim(), 'one');
@@ -43,11 +44,16 @@ test('should transform results dict into unordered list', function(assert) {
 test('should include average star rating', function(assert) {
   this.set('results', {
     1: {
-      id: 1, name: 'one', reviews: [{id: 1, rating: 1, comment: 'yup'}]
+      id: 1, name: 'one', reviews: [1]
+    }
+  });
+  this.set('reviews', {
+    1: {
+      id: 1, rating: 1, comment: 'yup'
     }
   });
 
-  this.render(hbs`{{welp-list results=results}}`);
+  this.render(hbs`{{welp-list results=results reviews=reviews}}`);
 
   assert.equal(this.$().find('ul.search-results-list .result-reviews').length, 1);
   assert.equal(this.$().find('ul.search-results-list .result-reviews:eq(0)').text().trim(), '★ 1 review');
@@ -62,14 +68,19 @@ test('clicking read more/ and write the first review links redirect to detail ro
 
   this.set('results', {
     1: {
-      id: 1, name: 'one', reviews: [{id: 1, rating: 1, comment: 'yup'}],
+      id: 1, name: 'one', reviews: [1],
     },
     2: {
       id: 2, name: 'two', reviews: []
     }
   });
+  this.set('reviews', {
+    1: {
+      id: 1, rating: 1, comment: 'yup'
+    }
+  });
 
-  this.render(hbs`{{welp-list results=results}}`);
+  this.render(hbs`{{welp-list results=results reviews=reviews}}`);
 
   assert.equal(this.$().find('ul.search-results-list .result-review').length, 2);
   assert.equal(this.$().find('ul.search-results-list .result-review:eq(0) a').text(), 'read more');

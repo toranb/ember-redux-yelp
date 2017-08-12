@@ -4,22 +4,23 @@ import hbs from 'htmlbars-inline-precompile';
 var WelpDetailComponent = Ember.Component.extend({
   didReceiveAttrs() {
     this._super(...arguments);
-    this.get('result.reviews').forEach((review) => {
+    const reviews = this.get('reviews') || {};
+    Object.values(reviews).forEach(review => {
       if (review.reviewed) {
         this.set('buffer', review.comment);
       }
     });
   },
   layout: hbs`
-    {{#each result.reviews as |review|}}
+    {{#each-in reviews as |key review|}}
       <div class="detail-rating">{{review.comment}} {{review.rating}} ★ review</div>
-    {{/each}}
+    {{/each-in}}
 
-    {{welp-rating result=result rate=rate}}
+    {{welp-rating reviews=reviews rate=(action rate result.id)}}
 
     <div class="detail-name">{{result.name}}</div>
 
-    {{#each result.reviews as |review|}}
+    {{#each-in reviews as |key review|}}
       {{#if review.reviewed}}
         <p class="detail-comment">
           <textarea value={{buffer}} rows="4" cols="70" oninput={{action (mut buffer) value="target.value"}}></textarea>
@@ -28,7 +29,7 @@ var WelpDetailComponent = Ember.Component.extend({
           <span class="note">*You can always edit your review later</span>
         </p>
       {{/if}}
-    {{/each}}
+    {{/each-in}}
   `
 });
 

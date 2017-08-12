@@ -1,7 +1,10 @@
 import Ember from "ember";
 
 export default Ember.Helper.helper(function(params) {
-  var reviews = params[0];
+  var result = params[0];
+  var allReviews = params[1] || {};
+  var resultReviews = result && result.reviews || [];
+  var reviews = resultReviews.map(id => allReviews[id]);
   if (!reviews || reviews.length === 0) {
     return '';
   }

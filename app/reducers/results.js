@@ -1,6 +1,5 @@
-import _ from 'lodash';
 import reselect from 'reselect';
-import { normalize, denormalize, schema } from 'normalizr';
+import { normalize, schema } from 'normalizr';
 
 const review = new schema.Entity('reviews');
 const resultsSchema = new schema.Entity('results', {
@@ -20,35 +19,33 @@ export default ((state, action) => {
     case 'TRANSFORM_LIST': {
       const normalized = normalize(action.response, [resultsSchema]);
       const { results, reviews } = normalized.entities;
-      const resultz = _.keyBy(results, result => result.id);
-      const reviewz = _.keyBy(reviews, review => review.id);
-      const mergedResults = _.extend({}, state.all, resultz);
-      const mergedReviews = _.extend({}, state.reviews, reviewz);
-      return Object.assign({}, state, {all: mergedResults, reviews: mergedReviews});
+      return {
+        ...state,
+        all: {...state.all, ...results},
+        reviews: {...state.reviews, ...reviews}
+      }
     }
     case 'TRANSFORM_DETAIL': {
       const result = {[action.response.id]: action.response};
       const normalized = normalize(result, [resultsSchema]);
       const { results, reviews } = normalized.entities;
-      const merge = _.extend({}, state.all, results);
-      const mergeReviews = _.extend({}, state.reviews, _.keyBy(reviews, review => review.id));
-      return Object.assign({}, state, {
-        all: merge,
-        reviews: mergeReviews,
+      return {
+        ...state,
+        all: {...state.all, ...results},
+        reviews: {...state.reviews, ...reviews},
         selectedId: action.response.id
-      });
+      }
     }
     case 'RATE_ITEM':
     case 'COMMENT_ITEM': {
       const rateResult = {[action.response.id]: action.response};
       const normalized = normalize(rateResult, [resultsSchema]);
       const { results, reviews } = normalized.entities;
-      const rateMerge = _.extend({}, state.all, results);
-      const rateReviews = _.extend({}, state.reviews, _.keyBy(reviews, review => review.id));
-      return Object.assign({}, state, {
-        all: rateMerge,
-        reviews: rateReviews
-      });
+      return {
+        ...state,
+        all: {...state.all, ...results},
+        reviews: {...state.reviews, ...reviews}
+      }
     }
     default: {
       return state || initialState;
@@ -63,34 +60,28 @@ const authenticatedUserId = state => state.users.authenticatedId;
 
 export const getResults = createSelector(
   results,
+  (results) => results
+);
+
+export const getReviews = createSelector(
   reviews,
-  (results, reviews) => {
-    return _.map(results, result => {
-      var denormalized = denormalize({reviews: result.reviews}, resultsSchema, {reviews: reviews});
-      return _.defaults({
-        reviews: denormalized.reviews
-      }, result);
-    });
-  }
+  (reviews) => reviews
 );
 
 export const getSelectedResult = createSelector(
   results,
-  reviews,
   selectedId,
-  authenticatedUserId,
-  (results, reviews, selectedId, authenticatedUserId) => {
-    return _.map([results[selectedId]], result => {
-      const theReviews = _.mapValues(reviews, review => {
-        return _.defaults({
-          reviewed: review.userId === authenticatedUserId
-        }, review);
-      });
+  (results, selectedId) => results[selectedId]
+);
 
-      const denormalized = denormalize({reviews: result.reviews}, resultsSchema, {reviews: theReviews});
-      return _.defaults({
-        reviews: denormalized.reviews
-      }, result);
-    })[0];
+export const getSelectedReviews = createSelector(
+  reviews,
+  getSelectedResult,
+  authenticatedUserId,
+  (reviews, selectedResult, userId) => {
+    return selectedResult.reviews.reduce((prev, id) => {
+      let review = reviews[id];
+      return {...prev, ...{[id]: {...review, reviewed: review.userId === userId}}};
+    }, {});
   }
 );

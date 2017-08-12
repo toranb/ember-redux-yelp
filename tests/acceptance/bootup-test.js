@@ -5,13 +5,13 @@ import { test, module } from 'qunit';
 let application, redux;
 
 module('Acceptance | bootup', {
-    beforeEach: function() {
-        application = startApp();
-        redux = application.__container__.lookup('service:redux');
-    },
-    afterEach: function() {
-        Ember.run(application, 'destroy');
-    }
+  beforeEach: function() {
+    application = startApp();
+    redux = application.__container__.lookup('service:redux');
+  },
+  afterEach: function() {
+    Ember.run(application, 'destroy');
+  }
 });
 
 test('should add the authenticated user information', function(assert) {

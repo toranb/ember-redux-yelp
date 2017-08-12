@@ -1,5 +1,3 @@
-import _ from 'lodash';
-
 const initialState = {
   all: undefined,
   authenticatedId: undefined
@@ -8,12 +6,13 @@ const initialState = {
 export default ((state, action) => {
   switch(action.type) {
     case 'ASSIGN_USER': {
-      const user = {[action.user.id]: action.user};
-      const merge = _.extend({}, state.all, user);
-      return Object.assign({}, state, {
-        all: merge,
-        authenticatedId: action.user.id
-      });
+      const userId = action.user.id;
+      const user = {[userId]: action.user};
+      return {
+        ...state,
+        all: {...state.all, ...user},
+        authenticatedId: userId
+      }
     }
     default: {
       return state || initialState;

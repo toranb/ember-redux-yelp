@@ -8,7 +8,7 @@ moduleForComponent('helper:reviewed', 'Integration | Helper | reviewed', {
 test('should return 1 review for item with a single review', function(assert) {
   this.set('result', {
     id: 1,
-    reviews: [{id: 9}]
+    reviews: [9]
   });
 
   this.render(hbs`{{reviewed result.reviews}}`);
@@ -19,7 +19,7 @@ test('should return 1 review for item with a single review', function(assert) {
 test('should return 2 reviews for item with 2 reviews', function(assert) {
   this.set('result', {
     id: 1,
-    reviews: [{id: 9}, {id: 8}]
+    reviews: [9, 8]
   });
 
   this.render(hbs`{{reviewed result.reviews}}`);

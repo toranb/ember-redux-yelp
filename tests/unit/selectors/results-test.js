@@ -1,10 +1,10 @@
 import { test, module } from 'qunit';
-import { getSelectedResult } from 'welp/reducers/results';
+import { getSelectedResult, getSelectedReviews } from 'welp/reducers/results';
 import deepFreeze from 'welp/tests/helpers/deep-freeze';
 
 module('Unit | Selectors | results');
 
-test('getSelectedResult should transform userId on nested review to boolean value', function(assert) {
+test('getSelectedReviews should transform userId on nested review to boolean value', function(assert) {
   const state = {
     users: {
       authenticatedId: 39
@@ -55,27 +55,34 @@ test('getSelectedResult should transform userId on nested review to boolean valu
 
   deepFreeze(state);
 
-  const selection = getSelectedResult(state);
+  const selectionResult = getSelectedResult(state);
 
-  const expectedSelection = {
+  const expectedResult = {
     id: 2,
     name: 'two',
-    reviews: [
-      {
+    reviews: [5, 6]
+  };
+
+  assert.deepEqual(selectionResult, expectedResult);
+
+  const selectionReviews = getSelectedReviews(state);
+
+  const expectedReviews = {
+    5: {
         id: 5,
         rating: 3,
         comment: 'xyz',
         reviewed: true,
         userId: 39
-      },
-      {
+    },
+    6: {
         id: 6,
         rating: 2,
         comment: 'keep',
         reviewed: false,
         userId: 32
-      }]
+    }
   };
 
-  assert.deepEqual(selection, expectedSelection);
+  assert.deepEqual(selectionReviews, expectedReviews);
 });

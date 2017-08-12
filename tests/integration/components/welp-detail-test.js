@@ -8,11 +8,12 @@ moduleForComponent('welp-detail', 'Integration | Component | welp-detail', {
 test('should display result detail name', function(assert) {
   this.set('comment', () => {});
   this.set('rate', () => {});
+  this.set('reviews', {});
   this.set('result', {
     id: 2, name: 'two', reviews: []
   });
 
-  this.render(hbs`{{welp-detail result=result rate=rate comment=comment}}`);
+  this.render(hbs`{{welp-detail result=result reviews=reviews rate=rate comment=comment}}`);
 
   assert.equal(this.$().find('.detail-name').length, 1);
   assert.equal(this.$().find('.detail-name').text().trim(), 'two');
@@ -24,17 +25,22 @@ test('should display each review with comment and rating', function(assert) {
   this.set('result', {
     id: 2,
     name: 'two',
-    reviews: [
-      {id: 9, rating: 5, comment: 'x'},
-      {id: 8, rating: 4, comment: 'y'}
-    ]
+    reviews: [9, 8]
+  });
+  this.set('reviews', {
+    9: {
+      id: 9, rating: 5, comment: 'x'
+    },
+    8: {
+      id: 8, rating: 4, comment: 'y'
+    }
   });
 
-  this.render(hbs`{{welp-detail result=result rate=rate comment=comment}}`);
+  this.render(hbs`{{welp-detail result=result reviews=reviews rate=rate comment=comment}}`);
 
   assert.equal(this.$().find('.detail-rating').length, 2);
-  assert.equal(this.$().find('.detail-rating:eq(0)').text().trim(), 'x 5 ★ review');
-  assert.equal(this.$().find('.detail-rating:eq(1)').text().trim(), 'y 4 ★ review');
+  assert.equal(this.$().find('.detail-rating:eq(0)').text().trim(), 'y 4 ★ review');
+  assert.equal(this.$().find('.detail-rating:eq(1)').text().trim(), 'x 5 ★ review');
 });
 
 test('star rating exists with onclick closure action', function(assert) {
@@ -48,7 +54,7 @@ test('star rating exists with onclick closure action', function(assert) {
     id: 2, name: 'two', reviews: []
   });
 
-  this.render(hbs`{{welp-detail result=result rate=rate comment=comment}}`);
+  this.render(hbs`{{welp-detail result=result reviews=reviews rate=rate comment=comment}}`);
 
   assert.equal(this.$().find('.star-group').length, 2);
   assert.equal(this.$().find('.star-group span').length, 10);
@@ -61,10 +67,15 @@ test('star rating width reflected visually', function(assert) {
   this.set('comment', () => {});
   this.set('rate', () => {});
   this.set('result', {
-    id: 2, name: 'two', reviews: [{id: 9, rating: 3, reviewed: true}]
+    id: 2, name: 'two', reviews: [9]
+  });
+  this.set('reviews', {
+    9: {
+      id: 9, rating: 3, reviewed: true
+    }
   });
 
-  this.render(hbs`{{welp-detail result=result rate=rate comment=comment}}`);
+  this.render(hbs`{{welp-detail result=result reviews=reviews rate=rate comment=comment}}`);
 
   assert.equal(this.$().find('.star-group').length, 2);
   assert.equal(this.$().find('.star-group').attr('style'), 'width: 60%');
@@ -74,10 +85,15 @@ test('when result has a rating the textarea/buttons are visible for comment', fu
   this.set('comment', () => {});
   this.set('rate', () => {});
   this.set('result', {
-    id: 2, name: 'two', reviews: [{id: 9, rating: 3, reviewed: true}]
+    id: 2, name: 'two', reviews: [9]
+  });
+  this.set('reviews', {
+    9: {
+      id: 9, rating: 3, reviewed: true
+    }
   });
 
-  this.render(hbs`{{welp-detail result=result rate=rate comment=comment}}`);
+  this.render(hbs`{{welp-detail result=result reviews=reviews rate=rate comment=comment}}`);
 
   assert.equal(this.$().find('.detail-comment textarea').length, 1);
   assert.equal(this.$().find('.detail-comment button.btn-success').length, 1);
@@ -89,10 +105,15 @@ test('when result has no rating the textarea/buttons are not visible for comment
   this.set('comment', () => {});
   this.set('rate', () => {});
   this.set('result', {
-    id: 2, name: 'two', reviews: [{id: 9, rating: 3}]
+    id: 2, name: 'two', reviews: [9]
+  });
+  this.set('reviews', {
+    9: {
+      id: 9, rating: 3
+    }
   });
 
-  this.render(hbs`{{welp-detail result=result rate=rate comment=comment}}`);
+  this.render(hbs`{{welp-detail result=result reviews=reviews rate=rate comment=comment}}`);
 
   assert.equal(this.$().find('.detail-comment textarea').length, 0);
   assert.equal(this.$().find('.detail-comment button.btn-success').length, 0);
@@ -106,10 +127,15 @@ test('clicking btn-success will trigger wired closure action', function(assert) 
     assert.equal(comment, 'wat');
   });
   this.set('result', {
-    id: 2, name: 'two', reviews: [{id: 9, rating: 3, reviewed: true}]
+    id: 2, name: 'two', reviews: [9]
+  });
+  this.set('reviews', {
+    9: {
+      id: 9, rating: 3, reviewed: true
+    }
   });
 
-  this.render(hbs`{{welp-detail result=result rate=rate comment=comment}}`);
+  this.render(hbs`{{welp-detail result=result reviews=reviews rate=rate comment=comment}}`);
 
   this.$().find('.detail-comment textarea').val('wat').trigger('input');
   this.$().find('.detail-comment button.btn-success').trigger('click');
@@ -119,10 +145,15 @@ test('textarea will show the value of an existing comment', function(assert) {
   this.set('rate', () => {});
   this.set('comment', () => {});
   this.set('result', {
-    id: 2, name: 'two', reviews: [{id: 9, rating: 3, comment: 'foo', reviewed: true}]
+    id: 2, name: 'two', reviews: [9]
+  });
+  this.set('reviews', {
+    9: {
+      id: 9, rating: 3, comment: 'foo', reviewed: true
+    }
   });
 
-  this.render(hbs`{{welp-detail result=result rate=rate comment=comment}}`);
+  this.render(hbs`{{welp-detail result=result reviews=reviews rate=rate comment=comment}}`);
 
   assert.equal(this.$().find('.detail-comment textarea').length, 1);
   assert.equal(this.$().find('.detail-comment textarea').val(), 'foo');
@@ -132,10 +163,15 @@ test('clicking btn-danger will reset to previous (persisted) comment', function(
   this.set('rate', () => {});
   this.set('comment', () => {});
   this.set('result', {
-    id: 2, name: 'two', reviews: [{id: 9, rating: 3, comment: 'foo', reviewed: true}]
+    id: 2, name: 'two', reviews: [9]
+  });
+  this.set('reviews', {
+    9: {
+      id: 9, rating: 3, comment: 'foo', reviewed: true
+    }
   });
 
-  this.render(hbs`{{welp-detail result=result rate=rate comment=comment}}`);
+  this.render(hbs`{{welp-detail result=result reviews=reviews rate=rate comment=comment}}`);
 
   assert.equal(this.$().find('.detail-comment textarea').val(), 'foo');
   assert.equal(this.$().find('.detail-comment button.btn-danger').text(), 'Reset');

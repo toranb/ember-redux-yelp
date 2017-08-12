@@ -1,9 +1,9 @@
 /* eslint-env node */
 
 module.exports = function(environment) {
-  var ENV = {
+  let ENV = {
     modulePrefix: 'welp',
-    environment: environment,
+    environment,
     rootURL: '/',
     locationType: 'auto',
     'ember-cli-mirage': {

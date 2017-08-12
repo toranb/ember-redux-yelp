@@ -15,7 +15,7 @@ var WelpListComponent = Ember.Component.extend({
                   </div>
                   <div class="result-mid">
                     <h5 class="result-heading">{{result.name}}</h5>
-                    <div class="smallish result-reviews">{{average result.reviews}} {{#link-to "results.detail" result.id}}{{reviewed result.reviews}}{{/link-to}}</div>
+                    <div class="smallish result-reviews">{{average result reviews}} {{#link-to "results.detail" result.id}}{{reviewed result.reviews}}{{/link-to}}</div>
                     <div class="smallish result-price-tags">{{result.price}} {{result.tags}}</div>
                   </div>
                   <div class="result-body">
@@ -24,8 +24,8 @@ var WelpListComponent = Ember.Component.extend({
                 </div>
                 <div class="result-review">
                   <p>
-                    {{result.reviews.0.comment}}
-                    {{#if result.reviews}}
+                    {{comment result reviews}}
+                    {{#if (gt result.reviews.length 0)}}
                       {{#link-to "results.detail" result.id}}read more{{/link-to}}
                     {{else}}
                       {{#link-to "results.detail" result.id}}write the first review!{{/link-to}}

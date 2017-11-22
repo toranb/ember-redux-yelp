@@ -54,7 +54,8 @@
     "redux-thunk": "^2.2.0",
     "reselect": "^3.0.1",
     "seamless-immutable": "^7.1.2",
-    "typescript": "^2.4"
+    "typescript": "^2.6",
+    "seamless-immutable-tsdefs": "^1.0.0"
   },
   "engines": {
     "node": ">= 4"

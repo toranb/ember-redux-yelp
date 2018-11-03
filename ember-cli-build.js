@@ -27,5 +27,9 @@ module.exports = function(defaults) {
 
   app.import('vendor/bootstrap.css');
 
+  app.import('node_modules/normalizr/dist/normalizr.amd.js', {
+    using: [{transformation: 'amd', as: 'normalizr'}]
+  });
+
   return app.toTree();
 };
